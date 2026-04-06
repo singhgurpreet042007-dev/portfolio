@@ -12,7 +12,7 @@ const projects = [
     image: "/placeholder.svg",
     tech: ["React", "Node.js", "Express", "MongoDB"],
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/singhgurpreet042007-dev/JudgeNest-pub",
     featured: true,
     gradient: "from-emerald-500/20 via-teal-500/10 to-cyan-500/20",
   },
