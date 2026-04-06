@@ -1,35 +1,108 @@
-# v0-developer-portfolio-ui
+🚀 Gurpreet Singh — Developer Portfolio
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+A modern and premium developer portfolio built using React, Tailwind CSS and Framer Motion, showcasing projects, skills and certifications with smooth animations and a clean UI.
 
-## Built with v0
+---
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+🌟 Features
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_bXQOEDAWKvPM7lL560xc7vvmGbGf)
+✨ Premium UI/UX design (Apple-level feel)
+✨ Smooth animations using Framer Motion
+✨ Glassmorphism & modern layout
+✨ Fully responsive design
+✨ Project showcase section
+✨ Certificates gallery with preview
+✨ Clean and minimal contact section
 
-## Getting Started
+---
 
-First, run the development server:
+🛠️ Tech Stack
 
-```bash
+- ⚛️ React
+- 🎨 Tailwind CSS
+- 🎞️ Framer Motion
+- ⚡ Vite / Next.js
+
+---
+
+📂 Project Structure
+
+src/
+ ├── components/
+ │    ├── Navbar
+ │    ├── Hero
+ │    ├── About
+ │    ├── Projects
+ │    ├── Certificates
+ │    ├── Contact
+ │    └── Footer
+ ├── App.jsx / App.tsx
+ └── index.css
+
+---
+
+📸 Certificates
+
+Includes multiple certifications displayed in a modern gallery:
+
+- Programming & Development Certificates
+- Hack-N-Win Participation Certificate
+- Technical Skill Certifications
+
+---
+
+🚀 Getting Started
+
+Clone the project:
+
+git clone https://github.com/singhgurpreet042007/portfolio.git
+
+Install dependencies:
+
+npm install
+
+Run the project:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build for production:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+npm run build
 
-## Learn More
+---
 
-To learn more, take a look at the following resources:
+🌐 Live Demo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+👉 (Add your deployed link here after Vercel deployment)
 
-<a href="https://v0.app/chat/api/kiro/clone/singhgurpreet042007-dev/v0-developer-portfolio-ui" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+---
+
+📬 Contact
+
+📧 Email: singh.gurpreet042007@gmail.com
+💼 LinkedIn: www.linkedin.com/in/gurpreet-singh-0891a1337
+🐙 GitHub: https://github.com/singhgurpreet042007
+
+---
+
+💡 Future Improvements
+
+- Dark/Light theme toggle
+- Blog section
+- Backend integration for contact form
+- More animations & interactions
+
+---
+
+⭐ Show Your Support
+
+If you like this project, give it a ⭐ on GitHub!
+
+---
+
+👨‍💻 Author
+
+Gurpreet Singh
+Frontend Developer | AI & DS Student
+
+---
