@@ -73,7 +73,7 @@ npm run build
 
 🌐 Live Demo
 
-👉 (Add your deployed link here after Vercel deployment)
+👉 https://portfolio-taupe-beta-tpocig9j7m.vercel.app/
 
 ---
 
