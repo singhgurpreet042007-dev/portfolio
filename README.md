@@ -103,6 +103,7 @@ If you like this project, give it a ⭐ on GitHub!
 👨‍💻 Author
 
 Gurpreet Singh
-Frontend Developer | AI & DS Student
+Frontend Developer 
+Ai & Ds Student
 
 ---
