@@ -22,10 +22,3 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-# 🔒 PROPRIETARY SOURCE CODE PROTECTION (Closed Source Showcase)
-# Prevents stealing or copying of portfolio components, animations, styles & media
-src/
-public/
-DESIGN.md
-*.pdf
