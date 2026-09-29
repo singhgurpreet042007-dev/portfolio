@@ -158,15 +158,6 @@ export const FlipLinksSection: React.FC = () => {
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 sm:mb-16 pb-4 border-b border-white/[0.08] gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              <ShimmerText
-                variant="cyan"
-                className="text-[11px] sm:text-[12px] font-mono uppercase tracking-[0.2em] font-semibold text-accent"
-              >
-                Direct Channels &amp; Network
-              </ShimmerText>
-            </div>
             <h2
               style={{ fontFamily: '"Aribau Rounded", sans-serif' }}
               className="text-2xl sm:text-3xl md:text-4xl font-aribau font-bold text-white tracking-tight"
@@ -175,9 +166,7 @@ export const FlipLinksSection: React.FC = () => {
             </h2>
           </div>
 
-          <p className="text-xs font-mono text-neutral-400 sm:text-right">
-            [ HOVER TO EXPAND CHANNEL INDEX ]
-          </p>
+
         </div>
 
         {/* Channels List */}

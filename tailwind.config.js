@@ -9,6 +9,8 @@ export default {
       colors: {
         surface: '#0a0a0a',
         background: '#0a0a0a',
+        foreground: '#ffffff',
+        'muted-foreground': '#a1a1aa',
         muted: '#121316',
         card: '#121316',
         'card-foreground': '#f5f5f7',

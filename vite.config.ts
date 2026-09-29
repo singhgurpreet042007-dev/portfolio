@@ -16,6 +16,8 @@ export default defineConfig({
         manualChunks: {
           'vendor-motion': ['framer-motion'],
           'vendor-lucide': ['lucide-react'],
+          'vendor-three': ['three'],
+          'vendor-gsap': ['gsap'],
         },
       },
     },

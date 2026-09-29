@@ -30,10 +30,10 @@ const StoryParagraph: React.FC<StoryParagraphProps> = React.memo(
   ({ segmentWords, segmentStartIndex, revealedWordCount }) => {
     return (
       <p
-        className="text-lg sm:text-2xl md:text-3xl lg:text-[34px] leading-relaxed break-words"
+        className="text-2xl sm:text-3xl md:text-4xl lg:text-[44px] xl:text-[52px] leading-[1.35] sm:leading-[1.3] break-words tracking-tight"
         style={{
           fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-          fontWeight: 600,
+          fontWeight: 700,
         }}
       >
         {segmentWords.map((word, i) => {
@@ -192,10 +192,10 @@ export const StorySection: React.FC = () => {
       {/* Content */}
       <div
         ref={containerRef}
-        className="max-w-4xl mx-auto px-6 sm:px-8 pt-12 sm:pt-20 pb-12 sm:pb-20"
-        style={{ minHeight: isMobile ? '160vh' : '200vh' }}
+        className="max-w-5xl mx-auto px-6 sm:px-10 pt-16 sm:pt-24 pb-16 sm:pb-24"
+        style={{ minHeight: isMobile ? '180vh' : '230vh' }}
       >
-        <div className="space-y-6 sm:space-y-10">
+        <div className="space-y-8 sm:space-y-12">
           {storySegments.map((_segment, segmentIndex) => {
             const segmentWords = segmentWordLists[segmentIndex];
             const segmentStartIndex = segmentStartIndices[segmentIndex];

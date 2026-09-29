@@ -13,9 +13,6 @@ export function BuildLog() {
 
       <div className="@container mx-auto max-w-5xl px-6 relative z-10">
         <div className="text-center">
-          <p className="text-[10px] font-mono text-orange-400/90 uppercase tracking-[0.16em] mb-1.5 font-medium">
-            経歴 — <span className="text-neutral-400 font-normal">build log</span>
-          </p>
           <h2
             style={{ fontFamily: '"Aribau Rounded", sans-serif' }}
             className="text-balance text-2xl sm:text-3xl font-semibold lg:text-4xl text-white font-aribau tracking-tight"

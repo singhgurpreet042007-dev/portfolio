@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Zap, Server, Sparkles, Settings2, Code2, ShieldCheck } from 'lucide-react';
 import { Card, CardHeader, CardContent } from '../components/ui/card';
 import { Reveal } from '../components/Reveal';
+import { TechCursor } from '../components/TechCursor';
 
 interface CapabilityCardData {
   title: string;
@@ -121,10 +122,7 @@ export const Capabilities: React.FC = () => {
 
       {/* ─── SECTION HEADER (CLEAN, CENTERED, ZERO FILLER) ─── */}
       <Reveal>
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-          <p className="text-[10.5px] font-mono text-neutral-500 uppercase tracking-[0.2em] font-medium mb-1.5">
-            CAPABILITIES // CORE ENGINEERING STACK
-          </p>
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
           <h2
             style={{ fontFamily: '"Aribau Rounded", sans-serif' }}
             className="text-3xl sm:text-4xl md:text-5xl font-aribau font-bold tracking-tight text-neutral-950"
@@ -133,6 +131,9 @@ export const Capabilities: React.FC = () => {
           </h2>
         </div>
       </Reveal>
+
+      {/* ─── CANVAS TECH CURSOR TRAIL ─── */}
+      <TechCursor />
 
       {/* ─── 6-CARD GRID (MAIN POINTS ONLY, NO THEORY) ─── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Quote, Compass } from 'lucide-react';
+import { Quote, Compass } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Reveal } from '../components/Reveal';
 
@@ -257,24 +257,6 @@ export const ThoughtsSection: React.FC = () => {
             />
           );
         })}
-
-        {/* Navigation Arrow Controls */}
-        <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-3 z-30">
-          <button
-            onClick={() => handleMove(-1)}
-            aria-label="Previous thought"
-            className="flex h-12 w-12 items-center justify-center rounded-xl bg-white border border-neutral-300 text-neutral-700 hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition-all shadow-sm active:scale-95 cursor-pointer"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            onClick={() => handleMove(1)}
-            aria-label="Next thought"
-            className="flex h-12 w-12 items-center justify-center rounded-xl bg-white border border-neutral-300 text-neutral-700 hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition-all shadow-sm active:scale-95 cursor-pointer"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
       </div>
     </section>
   );

@@ -182,7 +182,7 @@ export const LayeredText: React.FC<LayeredTextProps> = ({
             >
               {/* Top Text Item */}
               <p
-                className={`px-3 sm:px-4 align-top whitespace-nowrap m-0 transition-colors duration-300 ${
+                className={`px-14 sm:px-24 md:px-28 align-top whitespace-nowrap m-0 transition-colors duration-300 ${
                   isEven ? "text-neutral-200" : "text-neutral-400"
                 }`}
                 style={{
@@ -195,7 +195,7 @@ export const LayeredText: React.FC<LayeredTextProps> = ({
 
               {/* Bottom Revealed Text Item */}
               <p
-                className={`px-3 sm:px-4 align-top whitespace-nowrap m-0 transition-colors duration-300 ${
+                className={`px-14 sm:px-24 md:px-28 align-top whitespace-nowrap m-0 transition-colors duration-300 ${
                   isEven
                     ? "text-orange-400 drop-shadow-[0_0_16px_rgba(251,146,60,0.45)]"
                     : "text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]"

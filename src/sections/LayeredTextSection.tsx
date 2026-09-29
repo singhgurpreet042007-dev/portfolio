@@ -9,7 +9,7 @@ export const LayeredTextSection: React.FC = () => {
   return (
     <section
       id="philosophy"
-      className="relative w-full py-14 sm:py-20 md:py-24 bg-surface text-text-primary overflow-hidden border-t border-b border-white/[0.06] select-none"
+      className="relative w-full py-14 sm:py-20 md:py-24 bg-surface text-text-primary overflow-hidden select-none"
     >
       {/* Ambient Radial Spotlight Background */}
       <div
@@ -26,14 +26,6 @@ export const LayeredTextSection: React.FC = () => {
       />
 
       <div className="relative z-10 w-full max-w-4xl mx-auto px-6 sm:px-8 text-center">
-        {/* Section Pill Badge */}
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-md mb-3 shadow-sm">
-          <Layers className="size-3 text-orange-400" aria-hidden="true" />
-          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-300 font-medium">
-            理念 · <span className="text-orange-400">Core Principles</span>
-          </span>
-        </div>
-
         {/* Section Heading */}
         <h2
           style={{ fontFamily: '"Aribau Rounded", sans-serif' }}
@@ -51,16 +43,11 @@ export const LayeredTextSection: React.FC = () => {
         </p>
 
         {/* 3D Isometric LayeredText Component Stage */}
-        <div className="relative py-4 sm:py-8 mt-6 sm:mt-10 flex justify-center items-center overflow-hidden w-full max-w-full">
+        <div className="relative py-6 sm:py-12 mt-6 sm:mt-10 flex justify-center items-center overflow-visible w-full max-w-full">
           <LayeredText className="my-2" />
         </div>
 
-        {/* Bottom Micro Footer Quote */}
-        <div className="mt-8 sm:mt-12 pt-6 border-t border-white/[0.05] max-w-md mx-auto">
-          <p className="text-[11px] font-mono text-neutral-500 uppercase tracking-widest">
-            ENGINEERING SYSTEMS · BUILT TO LAST
-          </p>
-        </div>
+
       </div>
     </section>
   );

@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { StackLoader } from './components/StackLoader';
 import { IntroPage } from './sections/IntroPage';
 import { DirectoryPage } from './sections/DirectoryPage';
 import { MainPortfolio } from './sections/MainPortfolio';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,28 +16,32 @@ export const App: React.FC = () => {
   // Initialize luxury smooth, controlled slow-glide Lenis scroll
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.6, // Luxurious, slow smooth deceleration
+      duration: 1.15, // Butter-smooth instant deceleration
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.72, // Reduced wheel speed gives animations ample time to play smoothly
-      touchMultiplier: 1.2,
+      wheelMultiplier: 1.0, // 1:1 responsive input
+      touchMultiplier: 1.15,
       infinite: false,
     });
     lenisRef.current = lenis;
+    (window as any).lenis = lenis;
 
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
+    // Connect Lenis directly to GSAP ScrollTrigger for zero-lag lockstep updates
+    lenis.on('scroll', ScrollTrigger.update);
+
+    const tickerCb = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(tickerCb);
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      gsap.ticker.remove(tickerCb);
       lenis.destroy();
       lenisRef.current = null;
+      (window as any).lenis = null;
     };
   }, []);
 
