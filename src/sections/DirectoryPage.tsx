@@ -23,7 +23,11 @@ export const DirectoryPage: React.FC = () => {
     e.preventDefault();
     const element = document.getElementById(targetId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(element, { offset: 0, duration: 1.0 });
+      } else {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 

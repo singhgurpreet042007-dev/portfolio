@@ -131,12 +131,7 @@ body {
   }
 }
 
-/* ── Hardware Acceleration & Zero-Stutter Scroll Optimizations ── */
-.cv-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 700px;
-}
-
+/* ── Hardware Acceleration & Constant Scroll Velocity Stability ── */
 .gpu-layer {
   transform: translateZ(0);
   backface-visibility: hidden;

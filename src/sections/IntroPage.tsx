@@ -69,7 +69,11 @@ export const IntroPage: React.FC<{ ready?: boolean }> = ({ ready = true }) => {
             onClick={() => {
               const targetEl = document.getElementById('directory') || document.getElementById('hero');
               if (targetEl) {
-                targetEl.scrollIntoView({ behavior: 'smooth' });
+                if ((window as any).lenis) {
+                  (window as any).lenis.scrollTo(targetEl, { offset: 0, duration: 1.0 });
+                } else {
+                  targetEl.scrollIntoView({ behavior: 'smooth' });
+                }
               } else {
                 window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
               }
