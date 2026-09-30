@@ -45,7 +45,8 @@ export default function TextBlockAnimation({
       const lines = split.lines;
       const blocks: HTMLDivElement[] = [];
 
-      lines.forEach((line: HTMLElement, idx: number) => {
+      lines.forEach((lineEl, idx: number) => {
+        const line = lineEl as HTMLElement;
         // Create the wrapper
         const wrapper = document.createElement("div");
         wrapper.style.position = "relative";

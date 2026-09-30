@@ -37,6 +37,7 @@ export const App: React.FC = () => {
         const maxDelta = 110;
         if (data.deltaY > maxDelta) data.deltaY = maxDelta;
         else if (data.deltaY < -maxDelta) data.deltaY = -maxDelta;
+        return true;
       },
     });
     lenisRef.current = lenis;

@@ -134,7 +134,7 @@ class Star {
 export class AnimationController {
   private timeline: gsap.core.Timeline;
   public time = 0;
-  private canvas: HTMLCanvasElement;
+  public readonly canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   public dpr: number;
   public size: number;

@@ -2,7 +2,6 @@
 
 import React from "react";
 import { LayeredText } from "../components/LayeredText";
-import { Layers } from "lucide-react";
 
 export const LayeredTextSection: React.FC = () => {
 

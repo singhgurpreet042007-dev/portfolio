@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { ShimmerText } from "../components/ShimmerText";
 
 interface ChannelItem {
   id: string;
