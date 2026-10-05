@@ -27,7 +27,7 @@ const styles = `
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 75vh;
+  min-height: 70vh;
   padding: 5rem 1.5rem 4rem 1.5rem;
   background-color: #000000;
   color: #ffffff;
@@ -131,61 +131,17 @@ const styles = `
   position: relative;
   width: 100%;
   height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
-  background-color: #000000;
+  background-color: #050507;
 }
 
 .story-scroll-story .hero-reveal__stage {
   position: relative;
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #000000;
-}
-
-/* Vault Overlay: Giant Split Heading on top */
-.story-scroll-story .hero-reveal__vault {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  pointer-events: none;
-}
-
-.story-scroll-story .hero-reveal__vault-half {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 100%;
-  background-color: #ffffff;
-  color: #000000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  will-change: transform;
-}
-
-.story-scroll-story .hero-reveal__vault-half--top {
-  clip-path: inset(0 0 50% 0);
-  -webkit-clip-path: inset(0 0 50% 0);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.story-scroll-story .hero-reveal__vault-half--bottom {
-  clip-path: inset(50% 0 0 0);
-  -webkit-clip-path: inset(50% 0 0 0);
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.story-scroll-story .hero-reveal__vault-text {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: clamp(3.5rem, 12vw, 10.5rem);
-  line-height: 1;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  user-select: none;
+  overflow: hidden;
+  background-color: #050507;
 }
 
 /* Void Layer underneath */
@@ -197,6 +153,7 @@ const styles = `
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background-color: #050507;
 }
 
 .story-scroll-story .hero-reveal__content {
@@ -206,7 +163,7 @@ const styles = `
   width: 100%;
   padding: 0 1.5rem;
   text-align: left;
-  will-change: transform;
+  will-change: transform, opacity;
 }
 
 .story-scroll-story .hero-reveal__content p {
@@ -234,64 +191,112 @@ const styles = `
 }
 
 .story-scroll-story .hero-reveal__parallax-clock {
-  width: 140px;
-  height: 156px;
-  left: 10%;
-  top: 15%;
+  width: 130px;
+  height: 145px;
+  left: 9%;
+  top: 16%;
 }
 
 .story-scroll-story .hero-reveal__parallax-book {
-  width: 105px;
-  height: 98px;
-  left: 6%;
-  top: 55%;
+  width: 100px;
+  height: 94px;
+  left: 5%;
+  top: 56%;
 }
 
 .story-scroll-story .hero-reveal__parallax-alice {
-  width: 480px;
-  height: 390px;
+  width: 440px;
+  height: 358px;
   left: 45%;
-  top: 12%;
+  top: 14%;
   opacity: 0.9;
 }
 
 .story-scroll-story .hero-reveal__parallax-kattle {
-  width: 55px;
-  height: 45px;
-  right: 12%;
-  top: 25%;
+  width: 52px;
+  height: 42px;
+  right: 11%;
+  top: 24%;
   filter: blur(1.5px);
 }
 
 .story-scroll-story .hero-reveal__parallax-card {
-  width: 280px;
-  height: 288px;
-  right: 8%;
-  top: 45%;
+  width: 260px;
+  height: 268px;
+  right: 7%;
+  top: 46%;
   filter: blur(1.5px);
+}
+
+/* Vault Overlay: Warm cream banner opening from center outward into the void */
+.story-scroll-story .hero-reveal__vault {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background-color: #F5F2EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  will-change: clip-path;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%);
+  -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%);
+}
+
+.story-scroll-story .hero-reveal__vault-half {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+}
+
+.story-scroll-story .hero-reveal__vault-half--top {
+  clip-path: inset(0 0 50% 0);
+  -webkit-clip-path: inset(0 0 50% 0);
+}
+
+.story-scroll-story .hero-reveal__vault-half--bottom {
+  clip-path: inset(50% 0 0 0);
+  -webkit-clip-path: inset(50% 0 0 0);
+}
+
+.story-scroll-story .hero-reveal__vault-text {
+  font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(3.2rem, 11vw, 9.5rem);
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: #121316;
+  white-space: nowrap;
+  user-select: none;
 }
 
 @media (max-width: 1024px) {
   .story-scroll-story .hero-reveal__parallax-alice {
-    width: 360px;
-    height: 292px;
+    width: 340px;
+    height: 276px;
     left: 40%;
     opacity: 0.75;
   }
   .story-scroll-story .hero-reveal__parallax-card {
-    width: 220px;
-    height: 226px;
+    width: 200px;
+    height: 206px;
     right: 4%;
   }
 }
 
 @media (max-width: 768px) {
   .story-scroll-story .hero-reveal__vault-text {
-    font-size: clamp(2.6rem, 13vw, 5.5rem);
+    font-size: clamp(2.4rem, 12vw, 5rem);
   }
   .story-scroll-story .hero-reveal__parallax-alice {
-    width: 260px;
-    height: 211px;
+    width: 250px;
+    height: 203px;
     left: 20%;
     opacity: 0.55;
   }
@@ -310,8 +315,8 @@ const styles = `
     opacity: 0.6;
   }
   .story-scroll-story .hero-reveal__parallax-card {
-    width: 160px;
-    height: 165px;
+    width: 150px;
+    height: 155px;
     right: 4%;
     top: 50%;
     opacity: 0.55;
@@ -325,6 +330,7 @@ const styles = `
 export const StorySection: React.FC = () => {
   const rootRef = useRef<HTMLDivElement>(null);
   const heroRevealRef = useRef<HTMLDivElement>(null);
+  const vaultRef = useRef<HTMLDivElement>(null);
   const splitTopRef = useRef<HTMLDivElement>(null);
   const splitBottomRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -337,79 +343,99 @@ export const StorySection: React.FC = () => {
   useEffect(() => {
     const root = rootRef.current;
     const heroReveal = heroRevealRef.current;
+    const vault = vaultRef.current;
     const splitTop = splitTopRef.current;
     const splitBottom = splitBottomRef.current;
     const content = contentRef.current;
 
-    if (!root || !heroReveal || !splitTop || !splitBottom || !content) return;
+    if (!root || !heroReveal || !vault || !splitTop || !splitBottom || !content) return;
 
     const ctx = gsap.context(() => {
-      // Calibrated scroll distance (+=1150) and scrub (0.45):
-      // Fast, snappy, responsive scroll speed inside so the text and floating doll flow briskly.
+      // Precise, smooth bidirectional timeline
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroReveal,
           start: "top top",
-          end: "+=1150",
+          end: "+=1100",
           pin: true,
           pinSpacing: true,
-          scrub: 0.45,
-          anticipatePin: 1,
+          scrub: 0.5,
           invalidateOnRefresh: true,
         },
       });
 
-      // 1. HOLD/FREEZE PHASE (0 to 0.18):
-      // Keep splitTop and splitBottom fully closed at 0 so "DEEP DIVE" is 100% fully seen at rest first!
-      tl.set(splitTop, { yPercent: 0 }, 0);
-      tl.set(splitBottom, { yPercent: 0 }, 0);
+      // 1. Initial State: DEEP DIVE is fully closed, seamless with Chapter 01
+      tl.set(vault, {
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%)",
+      }, 0);
+      tl.set(splitTop, { yPercent: 0, opacity: 1 }, 0);
+      tl.set(splitBottom, { yPercent: 0, opacity: 1 }, 0);
+      tl.set(content, { y: 60, opacity: 0 }, 0);
 
-      // 2. CRISP VAULT CUT PHASE (0.18 to 0.48):
-      // Cuts cleanly and decisively, sliding all the way off screen (-105% & +105%)
+      // 2. Vault Aperture Opens (0.16 to 0.52):
+      // The background splits open cleanly from center upward and downward
+      tl.to(
+        vault,
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%, 0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+          ease: "power2.inOut",
+          duration: 0.36,
+        },
+        0.16
+      );
+
+      // Top text half glides upward subtly and dissolves
       tl.to(
         splitTop,
         {
-          yPercent: -105,
+          yPercent: -35,
+          opacity: 0,
           ease: "power2.inOut",
-          duration: 0.3,
+          duration: 0.32,
         },
-        0.18
+        0.16
       );
 
+      // Bottom text half glides downward subtly and dissolves
       tl.to(
         splitBottom,
         {
-          yPercent: 105,
+          yPercent: 35,
+          opacity: 0,
           ease: "power2.inOut",
-          duration: 0.3,
+          duration: 0.32,
         },
-        0.18
+        0.16
       );
 
-      // 3. FAST INNER CONTENT FLOW (0.32 to 1.0):
-      // Core Story Content smoothly rises through the revealed vault at a brisk, comfortable pace
-      tl.fromTo(
+      // 3. Void Content Fades In and Rises Smoothly (0.34 to 0.95):
+      // Only reveals AFTER the aperture has opened sufficiently, eliminating any text collision
+      tl.to(
         content,
-        { y: 160, opacity: 0.75 },
-        { y: -160, opacity: 1, ease: "none", duration: 0.65 },
-        0.32
+        {
+          y: -40,
+          opacity: 1,
+          ease: "power1.out",
+          duration: 0.60,
+        },
+        0.34
       );
 
-      // 4. Parallax Floating Elements (Alice doll, clock, book, kettle, card)
+      // 4. Parallax Floating Elements in the void
       if (clockRef.current) {
-        tl.to(clockRef.current, { y: -160, ease: "none", duration: 0.68 }, 0.28);
+        tl.fromTo(clockRef.current, { y: 40 }, { y: -90, ease: "none", duration: 0.62 }, 0.32);
       }
       if (bookRef.current) {
-        tl.to(bookRef.current, { y: -210, ease: "none", duration: 0.68 }, 0.28);
+        tl.fromTo(bookRef.current, { y: 60 }, { y: -130, ease: "none", duration: 0.62 }, 0.32);
       }
       if (aliceRef.current) {
-        tl.to(aliceRef.current, { y: -120, ease: "none", duration: 0.68 }, 0.28);
+        tl.fromTo(aliceRef.current, { y: 30 }, { y: -70, ease: "none", duration: 0.62 }, 0.32);
       }
       if (kettleRef.current) {
-        tl.to(kettleRef.current, { y: -240, ease: "none", duration: 0.68 }, 0.28);
+        tl.fromTo(kettleRef.current, { y: 70 }, { y: -150, ease: "none", duration: 0.62 }, 0.32);
       }
       if (cardRef.current) {
-        tl.to(cardRef.current, { y: -140, ease: "none", duration: 0.68 }, 0.28);
+        tl.fromTo(cardRef.current, { y: 50 }, { y: -110, ease: "none", duration: 0.62 }, 0.32);
       }
     }, root);
 
@@ -461,7 +487,7 @@ export const StorySection: React.FC = () => {
           </article>
         </div>
 
-        {/* ─── 3. THE SPLIT HERO VAULT REVEAL (PROFESSIONAL AESTHETIC "DEEP DIVE") ─── */}
+        {/* ─── 3. THE SPLIT HERO VAULT REVEAL (SEAMLESS APERTURE "DEEP DIVE") ─── */}
         <div ref={heroRevealRef} className="hero-reveal">
           <div className="hero-reveal__stage">
             {/* Dark Void Layer (Underneath) */}
@@ -475,32 +501,32 @@ export const StorySection: React.FC = () => {
                   className="hero-reveal__parallax-alice"
                 />
                 <img
-                  width="140"
-                  height="156"
+                  width="130"
+                  height="145"
                   src="https://cdn.21st.dev/assets/mirror/d9/d910502e2c6fa3f6f5e9c63cd498a005d1ec7a974f2286850859589b597a8aa1.png"
                   alt="Clock"
                   ref={clockRef}
                   className="hero-reveal__parallax-clock"
                 />
                 <img
-                  width="105"
-                  height="98"
+                  width="100"
+                  height="94"
                   src="https://cdn.21st.dev/assets/mirror/9e/9eb45f5186ffc7f60c3c085907211d5157bced180e6b1d0a15c0aab0150b7636.png"
                   alt="Book"
                   ref={bookRef}
                   className="hero-reveal__parallax-book"
                 />
                 <img
-                  width="55"
-                  height="45"
+                  width="52"
+                  height="42"
                   src="https://cdn.21st.dev/assets/mirror/d3/d3f44d54a86e918c2050ef8fa67d6bbc66cb272f42a4da04b1fd002faf5e915a.png"
                   alt="Kettle"
                   ref={kettleRef}
                   className="hero-reveal__parallax-kattle"
                 />
                 <img
-                  width="280"
-                  height="288"
+                  width="260"
+                  height="268"
                   src="https://cdn.21st.dev/assets/mirror/4d/4da8755595b497e15b45fcebdcd9d7c83b1700535e0bb4a3305fbdbb8e9324a2.png"
                   alt="Card"
                   ref={cardRef}
@@ -525,8 +551,8 @@ export const StorySection: React.FC = () => {
               </div>
             </div>
 
-            {/* Split Vault Overlay (On top: opens horizontally in half with "DEEP DIVE") */}
-            <div className="hero-reveal__vault">
+            {/* Split Vault Overlay (Opening cleanly from center with "DEEP DIVE") */}
+            <div ref={vaultRef} className="hero-reveal__vault">
               <div
                 ref={splitTopRef}
                 className="hero-reveal__vault-half hero-reveal__vault-half--top"
