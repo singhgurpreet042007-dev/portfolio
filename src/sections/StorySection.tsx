@@ -126,12 +126,20 @@ const styles = `
   color: #27272a;
 }
 
-/* --- 3. Hero Reveal (The Pinned Split Vault Stage) --- */
-.story-scroll-story .hero-reveal {
+/* --- 3. Hero Reveal (Native Sticky Aperture Vault Track) --- */
+.story-scroll-story .hero-reveal-track {
   position: relative;
   width: 100%;
+  height: 230vh;
+  background-color: #050507;
+}
+
+.story-scroll-story .hero-reveal {
+  position: sticky;
+  top: 0;
+  width: 100%;
   height: 100vh;
-  min-height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background-color: #050507;
 }
@@ -217,7 +225,6 @@ const styles = `
   height: 42px;
   right: 11%;
   top: 24%;
-  filter: blur(1.5px);
 }
 
 .story-scroll-story .hero-reveal__parallax-card {
@@ -225,43 +232,51 @@ const styles = `
   height: 268px;
   right: 7%;
   top: 46%;
-  filter: blur(1.5px);
 }
 
-/* Vault Overlay: Warm cream banner opening from center outward into the void */
+/* Vault Split Doors (100% GPU accelerated 2D sliding doors) */
 .story-scroll-story .hero-reveal__vault {
   position: absolute;
   inset: 0;
   z-index: 20;
-  background-color: #F5F2EB;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  will-change: clip-path;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%);
-  -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%);
+  pointer-events: none;
 }
 
-.story-scroll-story .hero-reveal__vault-half {
+.story-scroll-story .hero-reveal__door {
   position: absolute;
-  inset: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 50%;
+  background-color: #F5F2EB;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.story-scroll-story .hero-reveal__door--top {
+  top: 0;
+}
+
+.story-scroll-story .hero-reveal__door--bottom {
+  bottom: 0;
+}
+
+.story-scroll-story .hero-reveal__door-inner {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  will-change: transform, opacity;
 }
 
-.story-scroll-story .hero-reveal__vault-half--top {
-  clip-path: inset(0 0 50% 0);
-  -webkit-clip-path: inset(0 0 50% 0);
+.story-scroll-story .hero-reveal__door-inner--top {
+  top: 0;
 }
 
-.story-scroll-story .hero-reveal__vault-half--bottom {
-  clip-path: inset(50% 0 0 0);
-  -webkit-clip-path: inset(50% 0 0 0);
+.story-scroll-story .hero-reveal__door-inner--bottom {
+  bottom: 0;
 }
 
 .story-scroll-story .hero-reveal__vault-text {
@@ -329,8 +344,7 @@ const styles = `
 
 export const StorySection: React.FC = () => {
   const rootRef = useRef<HTMLDivElement>(null);
-  const heroRevealRef = useRef<HTMLDivElement>(null);
-  const vaultRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const splitTopRef = useRef<HTMLDivElement>(null);
   const splitBottomRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -342,100 +356,78 @@ export const StorySection: React.FC = () => {
 
   useEffect(() => {
     const root = rootRef.current;
-    const heroReveal = heroRevealRef.current;
-    const vault = vaultRef.current;
+    const track = trackRef.current;
     const splitTop = splitTopRef.current;
     const splitBottom = splitBottomRef.current;
     const content = contentRef.current;
 
-    if (!root || !heroReveal || !vault || !splitTop || !splitBottom || !content) return;
+    if (!root || !track || !splitTop || !splitBottom || !content) return;
 
     const ctx = gsap.context(() => {
-      // Precise, smooth bidirectional timeline with Lenis lockstep
+      // Hardware-accelerated sticky scroll timeline with zero pin lag or layout shift
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: heroReveal,
+          trigger: track,
           start: "top top",
-          end: "+=1100",
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
+          end: "bottom bottom",
           scrub: true,
         },
       });
 
-      // 1. Initial State: DEEP DIVE is fully closed, seamless with Chapter 01
-      tl.set(vault, {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%)",
-      }, 0);
-      tl.set(splitTop, { yPercent: 0, opacity: 1 }, 0);
-      tl.set(splitBottom, { yPercent: 0, opacity: 1 }, 0);
-      tl.set(content, { y: 60, opacity: 0 }, 0);
+      // 1. Initial State: DEEP DIVE doors are fully closed, matching Chapter 01
+      tl.set(splitTop, { yPercent: 0 }, 0);
+      tl.set(splitBottom, { yPercent: 0 }, 0);
+      tl.set(content, { y: 45, opacity: 0 }, 0);
 
-      // 2. Vault Aperture Opens (0.16 to 0.52):
-      // The background splits open cleanly from center upward and downward
-      tl.to(
-        vault,
-        {
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%, 0% 100%, 100% 100%, 100% 100%, 0% 100%)",
-          ease: "power2.inOut",
-          duration: 0.36,
-        },
-        0.16
-      );
-
-      // Top text half glides upward subtly and dissolves
+      // 2. Vault Doors Part Smoothly:
+      // Top door glides upward cleanly, bottom door glides downward cleanly
       tl.to(
         splitTop,
         {
-          yPercent: -35,
-          opacity: 0,
+          yPercent: -100,
           ease: "power2.inOut",
-          duration: 0.32,
+          duration: 0.36,
         },
-        0.16
+        0.08
       );
 
-      // Bottom text half glides downward subtly and dissolves
       tl.to(
         splitBottom,
         {
-          yPercent: 35,
-          opacity: 0,
+          yPercent: 100,
           ease: "power2.inOut",
-          duration: 0.32,
+          duration: 0.36,
         },
-        0.16
+        0.08
       );
 
-      // 3. Void Content Fades In and Rises Smoothly (0.34 to 0.95):
-      // Only reveals AFTER the aperture has opened sufficiently, eliminating any text collision
+      // 3. Void Content Rises and Fades In smoothly
       tl.to(
         content,
         {
-          y: -40,
+          y: -25,
           opacity: 1,
           ease: "power1.out",
-          duration: 0.60,
+          duration: 0.52,
         },
-        0.34
+        0.26
       );
 
       // 4. Parallax Floating Elements in the void
       if (clockRef.current) {
-        tl.fromTo(clockRef.current, { y: 40 }, { y: -90, ease: "none", duration: 0.62 }, 0.32);
+        tl.fromTo(clockRef.current, { y: 25 }, { y: -65, ease: "none", duration: 0.65 }, 0.22);
       }
       if (bookRef.current) {
-        tl.fromTo(bookRef.current, { y: 60 }, { y: -130, ease: "none", duration: 0.62 }, 0.32);
+        tl.fromTo(bookRef.current, { y: 35 }, { y: -95, ease: "none", duration: 0.65 }, 0.22);
       }
       if (aliceRef.current) {
-        tl.fromTo(aliceRef.current, { y: 30 }, { y: -70, ease: "none", duration: 0.62 }, 0.32);
+        tl.fromTo(aliceRef.current, { y: 20 }, { y: -50, ease: "none", duration: 0.65 }, 0.22);
       }
       if (kettleRef.current) {
-        tl.fromTo(kettleRef.current, { y: 70 }, { y: -150, ease: "none", duration: 0.62 }, 0.32);
+        tl.fromTo(kettleRef.current, { y: 45 }, { y: -105, ease: "none", duration: 0.65 }, 0.22);
       }
       if (cardRef.current) {
-        tl.fromTo(cardRef.current, { y: 50 }, { y: -110, ease: "none", duration: 0.62 }, 0.32);
+        tl.fromTo(cardRef.current, { y: 30 }, { y: -80, ease: "none", duration: 0.65 }, 0.22);
       }
     }, root);
 
@@ -482,86 +474,92 @@ export const StorySection: React.FC = () => {
           </article>
         </div>
 
-        {/* ─── 3. THE SPLIT HERO VAULT REVEAL (SEAMLESS APERTURE "DEEP DIVE") ─── */}
-        <div ref={heroRevealRef} className="hero-reveal">
-          <div className="hero-reveal__stage">
-            {/* Dark Void Layer (Underneath) */}
-            <div className="hero-reveal__void">
-              {/* Parallax Floating Assets */}
-              <div className="hero-reveal__parallax">
-                <img
-                  src="https://cdn.21st.dev/assets/mirror/9b/9bc8918f9a205f2b72edf3d4e9d7e2b0c3fcfba2ab80962eba6ad1fb4b89cb33.png"
-                  alt="Alice"
-                  ref={aliceRef}
-                  className="hero-reveal__parallax-alice"
-                />
-                <img
-                  width="130"
-                  height="145"
-                  src="https://cdn.21st.dev/assets/mirror/d9/d910502e2c6fa3f6f5e9c63cd498a005d1ec7a974f2286850859589b597a8aa1.png"
-                  alt="Clock"
-                  ref={clockRef}
-                  className="hero-reveal__parallax-clock"
-                />
-                <img
-                  width="100"
-                  height="94"
-                  src="https://cdn.21st.dev/assets/mirror/9e/9eb45f5186ffc7f60c3c085907211d5157bced180e6b1d0a15c0aab0150b7636.png"
-                  alt="Book"
-                  ref={bookRef}
-                  className="hero-reveal__parallax-book"
-                />
-                <img
-                  width="52"
-                  height="42"
-                  src="https://cdn.21st.dev/assets/mirror/d3/d3f44d54a86e918c2050ef8fa67d6bbc66cb272f42a4da04b1fd002faf5e915a.png"
-                  alt="Kettle"
-                  ref={kettleRef}
-                  className="hero-reveal__parallax-kattle"
-                />
-                <img
-                  width="260"
-                  height="268"
-                  src="https://cdn.21st.dev/assets/mirror/4d/4da8755595b497e15b45fcebdcd9d7c83b1700535e0bb4a3305fbdbb8e9324a2.png"
-                  alt="Card"
-                  ref={cardRef}
-                  className="hero-reveal__parallax-card"
-                />
+        {/* ─── 3. THE SPLIT HERO VAULT REVEAL (NATIVE STICKY APERTURE "DEEP DIVE") ─── */}
+        <div ref={trackRef} className="hero-reveal-track">
+          <div className="hero-reveal">
+            <div className="hero-reveal__stage">
+              {/* Dark Void Layer (Underneath) */}
+              <div className="hero-reveal__void">
+                {/* Parallax Floating Assets */}
+                <div className="hero-reveal__parallax">
+                  <img
+                    src="https://cdn.21st.dev/assets/mirror/9b/9bc8918f9a205f2b72edf3d4e9d7e2b0c3fcfba2ab80962eba6ad1fb4b89cb33.png"
+                    alt="Alice"
+                    ref={aliceRef}
+                    className="hero-reveal__parallax-alice"
+                  />
+                  <img
+                    width="130"
+                    height="145"
+                    src="https://cdn.21st.dev/assets/mirror/d9/d910502e2c6fa3f6f5e9c63cd498a005d1ec7a974f2286850859589b597a8aa1.png"
+                    alt="Clock"
+                    ref={clockRef}
+                    className="hero-reveal__parallax-clock"
+                  />
+                  <img
+                    width="100"
+                    height="94"
+                    src="https://cdn.21st.dev/assets/mirror/9e/9eb45f5186ffc7f60c3c085907211d5157bced180e6b1d0a15c0aab0150b7636.png"
+                    alt="Book"
+                    ref={bookRef}
+                    className="hero-reveal__parallax-book"
+                  />
+                  <img
+                    width="52"
+                    height="42"
+                    src="https://cdn.21st.dev/assets/mirror/d3/d3f44d54a86e918c2050ef8fa67d6bbc66cb272f42a4da04b1fd002faf5e915a.png"
+                    alt="Kettle"
+                    ref={kettleRef}
+                    className="hero-reveal__parallax-kattle"
+                  />
+                  <img
+                    width="260"
+                    height="268"
+                    src="https://cdn.21st.dev/assets/mirror/4d/4da8755595b497e15b45fcebdcd9d7c83b1700535e0bb4a3305fbdbb8e9324a2.png"
+                    alt="Card"
+                    ref={cardRef}
+                    className="hero-reveal__parallax-card"
+                  />
+                </div>
+
+                {/* Core Journey Revelations */}
+                <div ref={contentRef} className="hero-reveal__content">
+                  <p>
+                    Then I started building real things instead of just following tutorials. Some projects worked perfectly.
+                    Some broke in ways I didn't even know were theoretically possible.
+                  </p>
+                  <p>
+                    I quickly learned that writing code is only half the job. Understanding the core problem is where everything really starts.
+                    From frontend interfaces to APIs, databases, authentication, and AI, every project added something new to the stack.
+                  </p>
+                  <p>
+                    There were plenty of bugs, unfinished ideas, and moments where starting over felt easier than fixing everything.
+                    But every time something finally compiled and worked, the ambition behind the next idea became a little bigger.
+                  </p>
+                </div>
               </div>
 
-              {/* Core Journey Revelations */}
-              <div ref={contentRef} className="hero-reveal__content">
-                <p>
-                  Then I started building real things instead of just following tutorials. Some projects worked perfectly.
-                  Some broke in ways I didn't even know were theoretically possible.
-                </p>
-                <p>
-                  I quickly learned that writing code is only half the job. Understanding the core problem is where everything really starts.
-                  From frontend interfaces to APIs, databases, authentication, and AI, every project added something new to the stack.
-                </p>
-                <p>
-                  There were plenty of bugs, unfinished ideas, and moments where starting over felt easier than fixing everything.
-                  But every time something finally compiled and worked, the ambition behind the next idea became a little bigger.
-                </p>
-              </div>
-            </div>
-
-            {/* Split Vault Overlay (Opening cleanly from center with "DEEP DIVE") */}
-            <div ref={vaultRef} className="hero-reveal__vault">
-              <div
-                ref={splitTopRef}
-                className="hero-reveal__vault-half hero-reveal__vault-half--top"
-              >
-                <span className="hero-reveal__vault-text">DEEP DIVE</span>
-              </div>
-              <div
-                ref={splitBottomRef}
-                className="hero-reveal__vault-half hero-reveal__vault-half--bottom"
-                aria-hidden="true"
-              >
-                <span className="hero-reveal__vault-text" aria-hidden="true">
-                  DEEP DIVE
-                </span>
+              {/* Split Vault Doors (100% GPU Accelerated Sliding Doors) */}
+              <div className="hero-reveal__vault">
+                <div
+                  ref={splitTopRef}
+                  className="hero-reveal__door hero-reveal__door--top"
+                >
+                  <div className="hero-reveal__door-inner hero-reveal__door-inner--top">
+                    <span className="hero-reveal__vault-text">DEEP DIVE</span>
+                  </div>
+                </div>
+                <div
+                  ref={splitBottomRef}
+                  className="hero-reveal__door hero-reveal__door--bottom"
+                  aria-hidden="true"
+                >
+                  <div className="hero-reveal__door-inner hero-reveal__door-inner--bottom">
+                    <span className="hero-reveal__vault-text" aria-hidden="true">
+                      DEEP DIVE
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
