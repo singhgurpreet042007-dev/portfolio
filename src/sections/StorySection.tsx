@@ -162,24 +162,62 @@ const styles = `
   justify-content: center;
   overflow: hidden;
   background-color: #050507;
+  padding: 2.5rem 2rem;
 }
 
 .story-scroll-story .hero-reveal__content {
   position: relative;
   z-index: 2;
-  max-width: 38rem;
+  max-width: 52rem;
   width: 100%;
-  padding: 1rem 1.5rem;
+  height: 84%;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0;
   text-align: left;
   will-change: transform, opacity;
 }
 
+.story-scroll-story .hero-reveal__block {
+  position: relative;
+  max-width: 36rem;
+  padding-left: 1.35rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.14);
+  transition: all 0.3s ease;
+}
+
+.story-scroll-story .hero-reveal__block:nth-child(2) {
+  margin-left: clamp(1rem, 4vw, 3.5rem);
+  max-width: 38rem;
+  border-left-color: rgba(249, 115, 22, 0.6);
+}
+
+.story-scroll-story .hero-reveal__block:nth-child(3) {
+  margin-left: clamp(0.5rem, 2vw, 1.5rem);
+  max-width: 38rem;
+  border-left-color: rgba(255, 255, 255, 0.18);
+}
+
+.story-scroll-story .hero-reveal__block-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f97316;
+  margin-bottom: 0.45rem;
+}
+
 .story-scroll-story .hero-reveal__content p {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: clamp(0.92rem, 1.25vw, 1.08rem);
+  font-size: clamp(0.96rem, 1.35vw, 1.15rem);
   line-height: 1.72;
-  margin-bottom: 1.15rem;
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.94);
+  margin: 0;
 }
 
 /* Parallax floating illustrations in the void */
@@ -199,39 +237,46 @@ const styles = `
 }
 
 .story-scroll-story .hero-reveal__parallax-clock {
-  width: 130px;
-  height: 145px;
-  left: 9%;
-  top: 16%;
+  width: 105px;
+  height: 118px;
+  left: 3%;
+  top: 7%;
+  opacity: 0.65;
 }
 
 .story-scroll-story .hero-reveal__parallax-book {
-  width: 100px;
-  height: 94px;
-  left: 5%;
-  top: 56%;
+  width: 95px;
+  height: 90px;
+  left: 3%;
+  bottom: 7%;
+  top: auto;
+  opacity: 0.65;
 }
 
 .story-scroll-story .hero-reveal__parallax-alice {
-  width: 440px;
-  height: 358px;
-  left: 45%;
-  top: 14%;
-  opacity: 0.9;
+  width: 310px;
+  height: 252px;
+  right: 5%;
+  top: 7%;
+  left: auto;
+  opacity: 0.88;
 }
 
 .story-scroll-story .hero-reveal__parallax-kattle {
-  width: 52px;
-  height: 42px;
-  right: 11%;
-  top: 24%;
+  width: 50px;
+  height: 40px;
+  right: 28%;
+  top: 6%;
+  opacity: 0.7;
 }
 
 .story-scroll-story .hero-reveal__parallax-card {
-  width: 260px;
-  height: 268px;
-  right: 7%;
-  top: 46%;
+  width: 235px;
+  height: 242px;
+  right: 6%;
+  bottom: 7%;
+  top: auto;
+  opacity: 0.82;
 }
 
 /* Vault Split Doors (100% GPU accelerated 2D sliding doors) */
@@ -292,49 +337,58 @@ const styles = `
 }
 
 @media (max-width: 1024px) {
+  .story-scroll-story .hero-reveal__content {
+    max-width: 100%;
+    height: 88%;
+    min-height: 420px;
+  }
+  .story-scroll-story .hero-reveal__block:nth-child(2) {
+    margin-left: 1rem;
+  }
   .story-scroll-story .hero-reveal__parallax-alice {
-    width: 340px;
-    height: 276px;
-    left: 40%;
-    opacity: 0.75;
+    width: 240px;
+    height: 195px;
+    right: 3%;
+    top: 5%;
+    opacity: 0.55;
   }
   .story-scroll-story .hero-reveal__parallax-card {
-    width: 200px;
-    height: 206px;
-    right: 4%;
+    width: 175px;
+    height: 180px;
+    right: 3%;
+    bottom: 5%;
+    opacity: 0.5;
   }
 }
 
 @media (max-width: 768px) {
+  .story-scroll-story .hero-reveal-track {
+    height: 120vh;
+  }
   .story-scroll-story .hero-reveal__vault-text {
     font-size: clamp(2.4rem, 12vw, 5rem);
   }
+  .story-scroll-story .hero-reveal__content {
+    height: auto;
+    min-height: 0;
+    gap: 1.5rem;
+    padding: 1.5rem 0.5rem;
+  }
+  .story-scroll-story .hero-reveal__block:nth-child(2),
+  .story-scroll-story .hero-reveal__block:nth-child(3) {
+    margin-left: 0;
+  }
   .story-scroll-story .hero-reveal__parallax-alice {
-    width: 250px;
-    height: 203px;
-    left: 20%;
-    opacity: 0.55;
-  }
-  .story-scroll-story .hero-reveal__parallax-clock {
-    width: 80px;
-    height: 89px;
-    left: 5%;
-    top: 10%;
-    opacity: 0.6;
-  }
-  .story-scroll-story .hero-reveal__parallax-book {
-    width: 65px;
-    height: 61px;
-    left: 4%;
-    top: 60%;
-    opacity: 0.6;
+    display: none;
   }
   .story-scroll-story .hero-reveal__parallax-card {
-    width: 150px;
-    height: 155px;
-    right: 4%;
-    top: 50%;
-    opacity: 0.55;
+    display: none;
+  }
+  .story-scroll-story .hero-reveal__parallax-clock {
+    display: none;
+  }
+  .story-scroll-story .hero-reveal__parallax-book {
+    display: none;
   }
   .story-scroll-story .hero-reveal__parallax-kattle {
     display: none;
@@ -522,20 +576,40 @@ export const StorySection: React.FC = () => {
                   />
                 </div>
 
-                {/* Core Journey Revelations */}
+                {/* Core Journey Revelations - Spread gracefully across full black page */}
                 <div ref={contentRef} className="hero-reveal__content">
-                  <p>
-                    Then I started building real things instead of just following tutorials. Some projects worked perfectly.
-                    Some broke in ways I didn't even know were theoretically possible.
-                  </p>
-                  <p>
-                    I quickly learned that writing code is only half the job. Understanding the core problem is where everything really starts.
-                    From frontend interfaces to APIs, databases, authentication, and AI, every project added something new to the stack.
-                  </p>
-                  <p>
-                    There were plenty of bugs, unfinished ideas, and moments where starting over felt easier than fixing everything.
-                    But every time something finally compiled and worked, the ambition behind the next idea became a little bigger.
-                  </p>
+                  <div className="hero-reveal__block">
+                    <span className="hero-reveal__block-badge">
+                      <span className="size-1.5 rounded-full bg-orange-500 inline-block animate-pulse" />
+                      01 · Breaking Tutorials
+                    </span>
+                    <p>
+                      Then I started building real things instead of just following tutorials. Some projects worked perfectly.
+                      Some broke in ways I didn&apos;t even know were theoretically possible.
+                    </p>
+                  </div>
+
+                  <div className="hero-reveal__block">
+                    <span className="hero-reveal__block-badge">
+                      <span className="size-1.5 rounded-full bg-orange-500 inline-block animate-pulse" />
+                      02 · The Core Problem
+                    </span>
+                    <p>
+                      I quickly learned that writing code is only half the job. Understanding the core problem is where everything really starts.
+                      From frontend interfaces to APIs, databases, authentication, and AI, every project added something new to the stack.
+                    </p>
+                  </div>
+
+                  <div className="hero-reveal__block">
+                    <span className="hero-reveal__block-badge">
+                      <span className="size-1.5 rounded-full bg-orange-500 inline-block animate-pulse" />
+                      03 · Ambition &amp; Resilience
+                    </span>
+                    <p>
+                      There were plenty of bugs, unfinished ideas, and moments where starting over felt easier than fixing everything.
+                      But every time something finally compiled and worked, the ambition behind the next idea became a little bigger.
+                    </p>
+                  </div>
                 </div>
               </div>
 
