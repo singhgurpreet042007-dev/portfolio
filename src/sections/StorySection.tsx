@@ -130,7 +130,7 @@ const styles = `
 .story-scroll-story .hero-reveal-track {
   position: relative;
   width: 100%;
-  height: 230vh;
+  height: 140vh;
   background-color: #050507;
 }
 
@@ -169,16 +169,16 @@ const styles = `
   z-index: 2;
   max-width: 38rem;
   width: 100%;
-  padding: 0 1.5rem;
+  padding: 1rem 1.5rem;
   text-align: left;
   will-change: transform, opacity;
 }
 
 .story-scroll-story .hero-reveal__content p {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: clamp(1.025rem, 1.4vw, 1.18rem);
-  line-height: 1.85;
-  margin-bottom: 1.75rem;
+  font-size: clamp(0.92rem, 1.25vw, 1.08rem);
+  line-height: 1.72;
+  margin-bottom: 1.15rem;
   color: rgba(255, 255, 255, 0.92);
 }
 
@@ -370,14 +370,14 @@ export const StorySection: React.FC = () => {
           trigger: track,
           start: "top top",
           end: "bottom bottom",
-          scrub: true,
+          scrub: 0.8,
         },
       });
 
       // 1. Initial State: DEEP DIVE doors are fully closed, matching Chapter 01
       tl.set(splitTop, { yPercent: 0 }, 0);
       tl.set(splitBottom, { yPercent: 0 }, 0);
-      tl.set(content, { y: 45, opacity: 0 }, 0);
+      tl.set(content, { y: 35, opacity: 0 }, 0);
 
       // 2. Vault Doors Part Smoothly:
       // Top door glides upward cleanly, bottom door glides downward cleanly
@@ -386,9 +386,9 @@ export const StorySection: React.FC = () => {
         {
           yPercent: -100,
           ease: "power2.inOut",
-          duration: 0.36,
+          duration: 0.44,
         },
-        0.08
+        0.04
       );
 
       tl.to(
@@ -396,38 +396,38 @@ export const StorySection: React.FC = () => {
         {
           yPercent: 100,
           ease: "power2.inOut",
-          duration: 0.36,
+          duration: 0.44,
         },
-        0.08
+        0.04
       );
 
-      // 3. Void Content Rises and Fades In smoothly
+      // 3. Void Content Rises and Fades In smoothly, settling perfectly centered
       tl.to(
         content,
         {
-          y: -25,
+          y: 0,
           opacity: 1,
           ease: "power1.out",
-          duration: 0.52,
+          duration: 0.45,
         },
-        0.26
+        0.18
       );
 
       // 4. Parallax Floating Elements in the void
       if (clockRef.current) {
-        tl.fromTo(clockRef.current, { y: 25 }, { y: -65, ease: "none", duration: 0.65 }, 0.22);
+        tl.fromTo(clockRef.current, { y: 20 }, { y: -45, ease: "none", duration: 0.7 }, 0.12);
       }
       if (bookRef.current) {
-        tl.fromTo(bookRef.current, { y: 35 }, { y: -95, ease: "none", duration: 0.65 }, 0.22);
+        tl.fromTo(bookRef.current, { y: 25 }, { y: -65, ease: "none", duration: 0.7 }, 0.12);
       }
       if (aliceRef.current) {
-        tl.fromTo(aliceRef.current, { y: 20 }, { y: -50, ease: "none", duration: 0.65 }, 0.22);
+        tl.fromTo(aliceRef.current, { y: 15 }, { y: -35, ease: "none", duration: 0.7 }, 0.12);
       }
       if (kettleRef.current) {
-        tl.fromTo(kettleRef.current, { y: 45 }, { y: -105, ease: "none", duration: 0.65 }, 0.22);
+        tl.fromTo(kettleRef.current, { y: 30 }, { y: -70, ease: "none", duration: 0.7 }, 0.12);
       }
       if (cardRef.current) {
-        tl.fromTo(cardRef.current, { y: 30 }, { y: -80, ease: "none", duration: 0.65 }, 0.22);
+        tl.fromTo(cardRef.current, { y: 20 }, { y: -50, ease: "none", duration: 0.7 }, 0.12);
       }
     }, root);
 
