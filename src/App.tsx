@@ -24,27 +24,27 @@ export const App: React.FC = () => {
   // Initialize luxury smooth, constant, and controlled slow-glide Lenis scroll
   useEffect(() => {
     const lenis = new Lenis({
-      lerp: 0.085, // Silky, predictable damping without sudden acceleration spikes
-      wheelMultiplier: 0.75, // Calibrated constant wheel rate: prevents jumping or racing ahead
-      touchMultiplier: 1.0,
-      smoothWheel: true,
+      duration: 1.15, // Buttery smooth glide duration
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential decay: instant responsive start, silky glide to stop
       orientation: 'vertical',
       gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0, // Natural 1:1 wheel velocity proportional to user scrolling
+      touchMultiplier: 1.5,
+      syncTouch: false, // Native 120Hz touch feel without artificial emulation lag
       infinite: false,
       autoResize: true,
-      virtualScroll: (data) => {
-        // Enforce constant, uniform speed by capping extreme delta spikes from fast mouse wheels
-        const maxDelta = 110;
-        if (data.deltaY > maxDelta) data.deltaY = maxDelta;
-        else if (data.deltaY < -maxDelta) data.deltaY = -maxDelta;
-        return true;
-      },
     });
     lenisRef.current = lenis;
     (window as any).lenis = lenis;
 
     // Connect Lenis directly to GSAP ScrollTrigger for zero-lag lockstep updates
     lenis.on('scroll', ScrollTrigger.update);
+
+    const onRefresh = () => {
+      lenis.resize();
+    };
+    ScrollTrigger.addEventListener('refresh', onRefresh);
 
     const tickerCb = (time: number) => {
       lenis.raf(time * 1000);
@@ -53,6 +53,7 @@ export const App: React.FC = () => {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      ScrollTrigger.removeEventListener('refresh', onRefresh);
       gsap.ticker.remove(tickerCb);
       lenis.destroy();
       lenisRef.current = null;

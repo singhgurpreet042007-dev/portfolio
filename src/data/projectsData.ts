@@ -126,7 +126,7 @@ export const PROJECTS: ProjectData[] = [
       { src: '/assets/projects/fluxora-slide-3.png', alt: 'Fluxora Optimistic Sync Engine' },
       { src: '/assets/projects/fluxora-slide-4.png', alt: 'Fluxora Security & Access Matrix' },
     ],
-    liveUrl: 'https://fluxora-lake.vercel.app/',
+    liveUrl: 'https://fluxora-hazel-nine.vercel.app/',
     githubUrl: 'https://github.com/singhgurpreet042007-dev/Fluxora',
   },
   {
@@ -141,7 +141,7 @@ export const PROJECTS: ProjectData[] = [
     src: '/assets/projects/deployflow-showcase.jpg',
     aspect: 3 / 4,
     description:
-      'Developer tooling cloud extension for Visual Studio Code providing seamless one-click cloud deployments, delta file synchronization, and real-time build telemetry. Eliminates context-switching between code editor and remote cloud consoles by streaming infrastructure logs, environment variables, and deployment states directly within the editor.',
+      'Developer tooling cloud extension for Visual Studio Code with 35+ verified marketplace downloads, providing seamless one-click cloud deployments, delta file synchronization, and real-time build telemetry. Eliminates context-switching between code editor and remote cloud consoles by streaming infrastructure logs, environment variables, and deployment states directly within the editor.',
     architectureOverview:
       'Constructed as a native Visual Studio Code language extension, DeployFlow hooks directly into local Git tree diffs and operating system secret storage. Modified file chunks are cryptographically hashed using SHA-1 algorithms and streamed to cloud hosting infrastructure without developers ever leaving the editor viewport.',
     problemStatement:
@@ -149,17 +149,17 @@ export const PROJECTS: ProjectData[] = [
     solutionOverview:
       'DeployFlow embeds continuous cloud orchestration directly into Visual Studio Code. With intelligent SHA-1 delta synchronization, encrypted native SecretStorage access, and live streaming build logs, engineers ship and verify production code with zero browser tab juggling.',
     metrics: [
+      { label: 'VS Code Downloads', value: '35+' },
       { label: 'Deployment Trigger', value: '1-Click Native' },
       { label: 'Delta File Engine', value: 'SHA-1 Hash Tree' },
       { label: 'Credential Vault', value: 'Native SecretStorage' },
-      { label: 'Context Switching', value: '0 Seconds' },
     ],
     keyHighlights: [
+      'Published on the Visual Studio Code Marketplace with 35+ developer downloads and active usage.',
       'Deep integration with the official Visual Studio Code Extension API and custom status bar telemetry indicators.',
       'Delta file synchronization engine using cryptographic SHA-1 hashes to upload only modified project chunks.',
       'Encrypted credential and API token management utilizing native OS SecretStorage (Keychain / Windows Credential Manager).',
       'Real-time streaming deployment logs and build telemetry rendered inside a lightweight custom webview panel.',
-      'Multi-cloud target deployment support with automated instant preview URL generation upon build completion.',
     ],
     techStack: [
       { category: 'IDE Runtime', items: ['VS Code Extension API', 'TypeScript', 'Node.js Engine'] },
@@ -185,7 +185,7 @@ export const PROJECTS: ProjectData[] = [
     role: 'Full-Stack Systems Developer',
     timeline: '2024 – 2025',
     transitionQuote: 'Real effort creates lasting utility. Distributed systems engineered for everyday reliability.',
-    src: '/assets/projects/smart-campus-preview.png',
+    src: '/assets/projects/smart-campus-showcase.png',
     aspect: 16 / 9,
     description:
       'One unified platform to manage academic records, attendance limits, lecture timetables, and campus broadcasts with precision. Connects students with real-time academic standing and empowers administrators with transparent institutional governance.',
@@ -216,9 +216,9 @@ export const PROJECTS: ProjectData[] = [
     ],
     images: [
       { src: '/assets/projects/smart-campus-showcase.png', alt: 'Smart Campus Operating System' },
-      { src: '/assets/projects/smart-campus-preview.png', alt: 'Attendance Monitoring & Goal Predictor' },
-      { src: '/assets/projects/smart-campus-slide-2.png', alt: 'Interactive Daily & Weekly Timetable' },
-      { src: '/assets/projects/smart-campus-slide-3.png', alt: 'Academic Tasks & Submission Deadlines' },
+      { src: '/assets/projects/smart-campus-preview.png', alt: 'Attendance Hub & 75% Goal Predictor' },
+      { src: '/assets/projects/smart-campus-slide-2.png', alt: 'Command Center & Institutional Audit Grid' },
+      { src: '/assets/projects/smart-campus-slide-3.png', alt: 'Decoupled Microservice Architecture' },
     ],
     liveUrl: 'https://readynest-task-2-ten.vercel.app/',
     githubUrl: 'https://github.com/singhgurpreet042007-dev/readynest-task-2',

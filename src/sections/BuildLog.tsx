@@ -5,9 +5,8 @@ import { GradientBars } from '../components/GradientBars';
 
 export function BuildLog() {
   return (
-    <section id="build-log" className="pt-28 sm:pt-36 md:pt-44 pb-20 sm:pb-28 md:pb-36 relative overflow-hidden w-full">
-      <div id="experience" className="absolute -top-24 left-0 pointer-events-none" />
-      <div id="contributions" className="absolute -top-24 left-0 pointer-events-none" />
+    <section id="build-log" className="py-20 sm:py-28 md:py-32 relative overflow-hidden w-full">
+      <div id="experience" className="absolute top-0 left-0 pointer-events-none" />
       {/* Dynamic pulsing gradient bars background effect — full bleed across the expanded section */}
       <GradientBars numBars={20} gradientFrom="rgba(234, 88, 12, 0.28)" className="opacity-95" />
 
@@ -40,7 +39,7 @@ export function BuildLog() {
                   2026 · AUGUST
                 </span>
                 <h3 className="font-semibold text-xl sm:text-2xl text-white tracking-tight">Hackathon Coordinator</h3>
-                <p className="text-xs sm:text-sm font-mono text-neutral-400 mt-1.5">CypherVerse · CGC Jhanjeri</p>
+                <p className="text-xs sm:text-sm font-mono text-neutral-400 mt-1.5">CypherVerse · CGC</p>
               </div>
             </CardHeader>
 
@@ -85,14 +84,14 @@ export function BuildLog() {
                 <span className="text-xs sm:text-[13px] font-mono text-orange-400/90 tracking-widest uppercase block mb-2 font-medium">
                   2026 · JAN — PRESENT
                 </span>
-                <h3 className="font-semibold text-xl sm:text-2xl text-white tracking-tight">Social Media & Creative Team</h3>
-                <p className="text-xs sm:text-sm font-mono text-neutral-400 mt-1.5">GDG · CGC Jhanjeri</p>
+                <h3 className="font-semibold text-xl sm:text-2xl text-white tracking-tight">Graphics Team</h3>
+                <p className="text-xs sm:text-sm font-mono text-neutral-400 mt-1.5">Google Developer Groups Chandigarh</p>
               </div>
             </CardHeader>
 
             <CardContent className="p-6 sm:p-8 pt-2 sm:pt-3 text-center flex-1 flex flex-col justify-between">
               <p className="text-sm sm:text-base text-neutral-300/90 leading-relaxed">
-                Contributing to the digital presence and community outreach of Google Developer Groups through creative content and event promotion.
+                Designing visual brand assets, graphics, and creative media for Google Developer Groups Chandigarh events and community initiatives.
               </p>
             </CardContent>
           </Card>

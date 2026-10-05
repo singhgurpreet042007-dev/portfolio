@@ -3,6 +3,7 @@ import { Hero } from './Hero';
 import { Work } from './Work';
 import { Capabilities } from './Capabilities';
 import { BuildLog } from './BuildLog';
+import { ContributionSkylineSection } from './ContributionSkylineSection';
 import { StorySection } from './StorySection';
 import { HoverSliderSection } from './HoverSliderSection';
 import { TechScatterSection } from '../components/TechScatterSection';
@@ -19,75 +20,67 @@ export interface MainPortfolioProps {
 export const MainPortfolio: React.FC<MainPortfolioProps> = ({ onSelectProject }) => {
   return (
     <div className="bg-surface text-text-primary">
-      {/* ─── 1. DARK SECTION: HERO (PROFILE) ─── */}
+      {/* ─── 01. DARK SECTION: HERO (DIRECTORY 01) ─── */}
       <div className="w-full max-w-page mx-auto px-6 sm:px-8 md:px-10">
         <Hero />
       </div>
 
-      {/* ─── FEATURED PROJECTS (WORK SHOWCASE - CREAM #F5F2EB BACKGROUND) ─── */}
+      {/* ─── 02. FEATURED PROJECTS: WORK (DIRECTORY 02 - CREAM BACKGROUND) ─── */}
       <Work onSelectProject={onSelectProject} />
 
-      {/* ─── 2. CREAM SECTION: CAPABILITIES (SKILLS) ─── */}
+      {/* ─── 03. BUILD LOG: PRACTICAL EXPERIENCE (DIRECTORY 03 - DARK BACKGROUND) ─── */}
+      <div className="relative z-0 w-full border-t border-white/[0.06]">
+        <BuildLog />
+      </div>
+
+      {/* ─── 04. 3D GITHUB SKYLINE: CODE ACTIVITY (DIRECTORY 04 - PINNED 3D ROTATION) ─── */}
+      <ContributionSkylineSection />
+
+      {/* ─── STORY SCROLL REVEAL SECTION: DEEP DIVE VAULT CUT & INNER FLOW ─── */}
+      <StorySection />
+
+      {/* ─── 05. CAPABILITIES: WHAT I WORK WITH (DIRECTORY 05 - CREAM BACKGROUND) ─── */}
       <div
         id="capabilities-section"
-        className="relative z-10 w-full bg-[#F5F2EB] text-neutral-900 pb-16 sm:pb-20"
-        style={{
-          clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 80px), 0 100%)',
-        }}
+        className="relative z-10 w-full bg-[#F5F2EB] text-neutral-900 py-16 sm:py-24 border-t border-neutral-300/80"
       >
         <div className="w-full max-w-page mx-auto px-6 sm:px-8 md:px-10">
           <Capabilities />
         </div>
       </div>
 
-      {/* ─── 3. DARK SECTION: BUILD LOG (EXPERIENCE & CONTRIBUTION) ─── */}
-      <div className="relative z-0 -mt-20 sm:-mt-20 w-full">
-        <BuildLog />
-      </div>
-
-      {/* ─── STORY SCROLL REVEAL SECTION ─── */}
-      <StorySection />
-
       {/* ─── DEDICATED MIDDLE SECTION: 4K HOVER SLIDER ENGINEERING PILLARS ─── */}
       <HoverSliderSection />
 
       {/* ─── MIDDLE SECTION: 3D SCROLL SCATTER & CONVERGENCE ASSEMBLY ─── */}
-      <div
-        className="relative z-10 w-full bg-[#f5f4f3] text-neutral-900 pb-16 sm:pb-20"
-        style={{
-          clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 80px), 0 100%)',
-        }}
-      >
-        <TechScatterSection />
+      <div className="relative z-10 w-full bg-[#f5f4f3] text-neutral-900 py-16 sm:py-20 border-t border-neutral-300/80">
+        <div className="w-full max-w-page mx-auto px-6 sm:px-8 md:px-10">
+          <TechScatterSection />
+        </div>
       </div>
 
       {/* ─── DEDICATED MIDDLE PAGE: 3D ISOMETRIC LAYERED TEXT (PHILOSOPHY) ─── */}
-      <div className="relative z-0 -mt-20 sm:-mt-20 pt-6 sm:pt-8">
+      <div className="relative z-0 pt-8 sm:pt-12 border-t border-white/[0.06]">
         <LayeredTextSection />
       </div>
 
       {/* ─── MIDDLE PAGE: SOCIAL FLIP LINKS ─── */}
       <FlipLinksSection />
 
-      {/* ─── 4. WHITE SECTION: THOUGHTS & OPERATING PRINCIPLES ─── */}
-      <div
-        className="relative z-10 w-full bg-white text-neutral-900 pb-16 sm:pb-22"
-        style={{
-          clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 85px), 0 100%)',
-        }}
-      >
+      {/* ─── WHITE SECTION: THOUGHTS & OPERATING PRINCIPLES ─── */}
+      <div className="relative z-10 w-full bg-white text-neutral-900 py-16 sm:py-24 border-t border-neutral-200">
         <div className="w-full max-w-page mx-auto px-6 sm:px-8 md:px-10">
           <ThoughtsSection />
         </div>
       </div>
 
-      {/* ─── SECOND LAST SECTION: STATEMENT / PHILOSOPHY BLOCK ANIMATION (DARK) ─── */}
-      <div className="relative z-0 -mt-20 sm:-mt-22 pt-12 sm:pt-16">
+      {/* ─── STATEMENT / PHILOSOPHY BLOCK ANIMATION (DARK) ─── */}
+      <div className="relative z-0 pt-12 sm:pt-16 border-t border-white/[0.06]">
         <StatementSection />
       </div>
 
-      {/* ─── 5. FINAL CONTACT SECTION: LET'S WORK TOGETHER (DARK) ─── */}
-      <div className="relative z-0">
+      {/* ─── 06. FINAL CONTACT SECTION: LET'S WORK TOGETHER (DIRECTORY 06) ─── */}
+      <div className="relative z-0 border-t border-white/[0.06]">
         <LetsWorkTogether />
       </div>
     </div>

@@ -138,6 +138,15 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
               <span className="uppercase tracking-wider text-neutral-700">{project.category}</span>
               <span>·</span>
               <span>{project.timeline}</span>
+              {project.id === 'deployflow' && (
+                <>
+                  <span>·</span>
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-700 font-mono text-[11px] font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+                    35+ Downloads on VS Code
+                  </span>
+                </>
+              )}
             </div>
 
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight leading-tight mb-2">
@@ -157,7 +166,7 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-950 text-white hover:bg-neutral-800 text-xs font-mono font-medium transition-all shadow-xs active:scale-95 cursor-pointer"
                 >
-                  <span>Live Site</span>
+                  <span>{project.id === 'deployflow' ? 'VS Code Marketplace' : 'Live Site'}</span>
                   <ArrowUpRight className="w-3 h-3" />
                 </a>
               )}
@@ -197,31 +206,15 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
             {creamSequenceItems.map((item, idx) => (
               <div key={item.index} className="py-10 sm:py-14">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
-                  {/* High-Fidelity Window Mockup Frame (Enlarged, Proper Frame, Uncropped Screenshot) */}
+                  {/* Clean High-Definition Image Showcase (No duplicate title bars) */}
                   <div className={`md:col-span-6 flex justify-center ${idx % 2 === 1 ? 'md:order-2' : 'md:order-1'}`}>
-                    <div className="w-full max-w-[500px] rounded-xl overflow-hidden border border-neutral-300 bg-white shadow-[0_4px_24px_-4px_rgba(0,0,0,0.07)] transition-all duration-300 hover:shadow-[0_10px_32px_-6px_rgba(0,0,0,0.12)]">
-                      {/* Window Chrome Header Bar */}
-                      <div className="h-7 px-3.5 bg-neutral-100/90 border-b border-neutral-200/90 flex items-center justify-between select-none">
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/85" />
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/85" />
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]/85" />
-                        </div>
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 font-medium truncate max-w-[200px] sm:max-w-[260px]">
-                          {item.image.alt || item.title}
-                        </span>
-                        <span className="w-10" />
-                      </div>
-
-                      {/* Window Stage — Uncropped, perfectly framed screenshot with clean inner padding */}
-                      <div className="p-2 sm:p-3 bg-neutral-50/70 flex items-center justify-center min-h-[220px] sm:min-h-[260px]">
-                        <img
-                          src={item.image.src}
-                          alt={item.image.alt || item.title}
-                          loading="lazy"
-                          className="w-full h-auto max-h-[300px] object-contain rounded-md shadow-2xs transition-transform duration-300 hover:scale-[1.01]"
-                        />
-                      </div>
+                    <div className="w-full max-w-[540px] rounded-2xl overflow-hidden border border-neutral-300/80 bg-neutral-900 shadow-[0_8px_30px_-6px_rgba(0,0,0,0.12)] transition-all duration-300 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.18)]">
+                      <img
+                        src={item.image.src}
+                        alt={item.image.alt || item.title}
+                        loading="lazy"
+                        className="w-full h-auto object-cover transition-transform duration-500 hover:scale-[1.015]"
+                      />
                     </div>
                   </div>
 
@@ -266,31 +259,15 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
             {darkSequenceItems.map((item, idx) => (
               <div key={item.index} className="py-10 sm:py-14">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
-                  {/* High-Fidelity Window Mockup Frame (Enlarged, Proper Frame, Uncropped Screenshot) */}
+                  {/* Clean High-Definition Image Showcase (No duplicate title bars) */}
                   <div className={`md:col-span-6 flex justify-center ${idx % 2 === 1 ? 'md:order-2' : 'md:order-1'}`}>
-                    <div className="w-full max-w-[500px] rounded-xl overflow-hidden border border-neutral-700/60 bg-[#16181d] shadow-[0_8px_32px_-6px_rgba(0,0,0,0.45)] transition-all duration-300 hover:shadow-[0_14px_42px_-8px_rgba(0,0,0,0.6)]">
-                      {/* Window Chrome Header Bar */}
-                      <div className="h-7 px-3.5 bg-[#111216] border-b border-neutral-800 flex items-center justify-between select-none">
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/85" />
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/85" />
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]/85" />
-                        </div>
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 font-medium truncate max-w-[200px] sm:max-w-[260px]">
-                          {item.image.alt || item.title}
-                        </span>
-                        <span className="w-10" />
-                      </div>
-
-                      {/* Window Stage — Uncropped, deep dark backdrop */}
-                      <div className="p-2 sm:p-3 bg-[#0c0d10] flex items-center justify-center min-h-[220px] sm:min-h-[260px]">
-                        <img
-                          src={item.image.src}
-                          alt={item.image.alt || item.title}
-                          loading="lazy"
-                          className="w-full h-auto max-h-[300px] object-contain rounded-md shadow-2xs transition-transform duration-300 hover:scale-[1.01]"
-                        />
-                      </div>
+                    <div className="w-full max-w-[540px] rounded-2xl overflow-hidden border border-neutral-700/60 bg-[#16181d] shadow-[0_8px_32px_-6px_rgba(0,0,0,0.45)] transition-all duration-300 hover:shadow-[0_16px_44px_-8px_rgba(0,0,0,0.6)]">
+                      <img
+                        src={item.image.src}
+                        alt={item.image.alt || item.title}
+                        loading="lazy"
+                        className="w-full h-auto object-cover transition-transform duration-500 hover:scale-[1.015]"
+                      />
                     </div>
                   </div>
 

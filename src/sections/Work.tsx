@@ -66,24 +66,9 @@ export const Work: React.FC<WorkProps> = memo(({ onSelectProject }) => {
                     >
                       <div
                         onClick={() => onSelectProject?.(project.id)}
-                        className="group relative cursor-pointer overflow-hidden rounded-xl border border-neutral-300/90 bg-neutral-900 shadow-[0_12px_36px_-8px_rgba(0,0,0,0.18)] hover:shadow-[0_24px_54px_-10px_rgba(0,0,0,0.28)] transition-all duration-500 hover:-translate-y-0.5"
+                        className="group relative cursor-pointer overflow-hidden rounded-2xl border border-neutral-300/80 bg-neutral-900 shadow-[0_12px_36px_-8px_rgba(0,0,0,0.18)] hover:shadow-[0_24px_54px_-10px_rgba(0,0,0,0.28)] transition-all duration-500 hover:-translate-y-0.5"
                       >
-                        {/* Minimal App Title Bar — Clean window frame header */}
-                        <div className="flex items-center justify-between px-3.5 py-2.5 bg-neutral-900 border-b border-neutral-800 text-[11px] font-mono text-neutral-400 select-none">
-                          <div className="flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-neutral-700 group-hover:bg-[#ff5f56] transition-colors" />
-                            <span className="w-2.5 h-2.5 rounded-full bg-neutral-700 group-hover:bg-[#ffbd2e] transition-colors" />
-                            <span className="w-2.5 h-2.5 rounded-full bg-neutral-700 group-hover:bg-[#27c93f] transition-colors" />
-                          </div>
-                          <span className="text-[11px] font-mono text-neutral-400 font-medium tracking-wide">
-                            {project.title.toLowerCase()}.system
-                          </span>
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 font-semibold">
-                            {project.number}
-                          </span>
-                        </div>
-
-                        {/* Image Showcase — 16:9 full rectangular viewport without awkward clipping */}
+                        {/* Image Showcase — Pure 4K rectangular viewport with zero duplicate titlebars */}
                         <div className="relative aspect-video w-full overflow-hidden bg-neutral-950">
                           <img
                             src={project.src}
@@ -103,7 +88,7 @@ export const Work: React.FC<WorkProps> = memo(({ onSelectProject }) => {
                         isEven ? 'lg:order-2' : 'lg:order-1'
                       }`}
                     >
-                      <div className="flex items-center gap-3 mb-2.5">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2.5">
                         <span className="text-xs font-mono font-bold tracking-widest text-neutral-400">
                           /{project.number}
                         </span>
@@ -111,6 +96,12 @@ export const Work: React.FC<WorkProps> = memo(({ onSelectProject }) => {
                         <span className="text-xs font-mono uppercase tracking-wider text-neutral-500 font-semibold truncate">
                           {project.subtitle}
                         </span>
+                        {project.id === 'deployflow' && (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-700 font-mono text-[11px] font-semibold">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+                            35+ Downloads on VS Code
+                          </span>
+                        )}
                       </div>
 
                       <h3
@@ -179,7 +170,7 @@ export const Work: React.FC<WorkProps> = memo(({ onSelectProject }) => {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-neutral-300 hover:border-neutral-950 hover:bg-neutral-950/5 text-neutral-900 text-xs sm:text-sm font-mono font-semibold transition-all active:scale-95"
                           >
-                            <span>Live</span>
+                            <span>{project.id === 'deployflow' ? 'VS Code Marketplace' : 'Live'}</span>
                             <ArrowUpRight size={14} />
                           </a>
                         )}
