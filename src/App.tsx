@@ -41,11 +41,6 @@ export const App: React.FC = () => {
     // Connect Lenis directly to GSAP ScrollTrigger for zero-lag lockstep updates
     lenis.on('scroll', ScrollTrigger.update);
 
-    const onRefresh = () => {
-      lenis.resize();
-    };
-    ScrollTrigger.addEventListener('refresh', onRefresh);
-
     const tickerCb = (time: number) => {
       lenis.raf(time * 1000);
     };
@@ -53,7 +48,6 @@ export const App: React.FC = () => {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
-      ScrollTrigger.removeEventListener('refresh', onRefresh);
       gsap.ticker.remove(tickerCb);
       lenis.destroy();
       lenisRef.current = null;
@@ -137,6 +131,7 @@ export const App: React.FC = () => {
           lenisRef.current.scrollTo(savedY, { immediate: true });
         }
       }
+      lastOpenedProjectIdRef.current = null;
     }
   }, [selectedProjectId]);
 
@@ -190,6 +185,9 @@ export const App: React.FC = () => {
 
   // On page mount / browser refresh: ALWAYS start from the beginning of the portfolio
   useEffect(() => {
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
     // If there was any residual project hash or state, reset it completely
     if (window.location.hash.startsWith('#project-')) {
       window.history.replaceState(null, '', window.location.pathname);

@@ -11,7 +11,7 @@ if (typeof window !== "undefined") {
 const styles = `
 .story-scroll-story {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
   background-color: #000000;
 }
@@ -351,7 +351,7 @@ export const StorySection: React.FC = () => {
     if (!root || !heroReveal || !vault || !splitTop || !splitBottom || !content) return;
 
     const ctx = gsap.context(() => {
-      // Precise, smooth bidirectional timeline
+      // Precise, smooth bidirectional timeline with Lenis lockstep
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroReveal,
@@ -359,8 +359,8 @@ export const StorySection: React.FC = () => {
           end: "+=1100",
           pin: true,
           pinSpacing: true,
-          scrub: 0.5,
-          invalidateOnRefresh: true,
+          anticipatePin: 1,
+          scrub: true,
         },
       });
 
@@ -439,12 +439,7 @@ export const StorySection: React.FC = () => {
       }
     }, root);
 
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 150);
-
     return () => {
-      clearTimeout(timer);
       ctx.revert();
     };
   }, []);
