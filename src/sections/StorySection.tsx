@@ -130,7 +130,7 @@ const styles = `
 .story-scroll-story .hero-reveal-track {
   position: relative;
   width: 100%;
-  height: 140vh;
+  height: 220vh;
   background-color: #050507;
 }
 
@@ -162,20 +162,19 @@ const styles = `
   justify-content: center;
   overflow: hidden;
   background-color: #050507;
-  padding: 2.5rem 2rem;
+  padding: 4rem 2rem 3rem 2rem;
 }
 
 .story-scroll-story .hero-reveal__content {
   position: relative;
   z-index: 2;
-  max-width: 52rem;
+  max-width: 48rem;
   width: 100%;
-  height: 84%;
-  min-height: 480px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 1rem 0;
+  gap: 1.85rem;
+  padding: 1.5rem 1.5rem;
+  margin-top: 2rem;
   text-align: left;
   will-change: transform, opacity;
 }
@@ -189,15 +188,15 @@ const styles = `
 }
 
 .story-scroll-story .hero-reveal__block:nth-child(2) {
-  margin-left: clamp(1rem, 4vw, 3.5rem);
+  margin-left: clamp(0.75rem, 2.5vw, 2.25rem);
   max-width: 38rem;
-  border-left-color: rgba(249, 115, 22, 0.6);
+  border-left-color: rgba(249, 115, 22, 0.65);
 }
 
 .story-scroll-story .hero-reveal__block:nth-child(3) {
-  margin-left: clamp(0.5rem, 2vw, 1.5rem);
+  margin-left: clamp(0.5rem, 1.5vw, 1.25rem);
   max-width: 38rem;
-  border-left-color: rgba(255, 255, 255, 0.18);
+  border-left-color: rgba(255, 255, 255, 0.2);
 }
 
 .story-scroll-story .hero-reveal__block-badge {
@@ -215,9 +214,27 @@ const styles = `
 .story-scroll-story .hero-reveal__content p {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: clamp(0.96rem, 1.35vw, 1.15rem);
-  line-height: 1.72;
+  line-height: 1.74;
   color: rgba(255, 255, 255, 0.94);
   margin: 0;
+}
+
+.story-scroll-story .hero-reveal__footer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.88rem;
+  color: #71717a;
+  padding-left: 1.35rem;
+  margin-top: 0.25rem;
+}
+
+.story-scroll-story .hero-reveal__footer-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: #f97316;
 }
 
 /* Parallax floating illustrations in the void */
@@ -239,25 +256,25 @@ const styles = `
 .story-scroll-story .hero-reveal__parallax-clock {
   width: 105px;
   height: 118px;
-  left: 3%;
-  top: 7%;
+  left: 4%;
+  top: 10%;
   opacity: 0.65;
 }
 
 .story-scroll-story .hero-reveal__parallax-book {
   width: 95px;
   height: 90px;
-  left: 3%;
-  bottom: 7%;
+  left: 4%;
+  bottom: 8%;
   top: auto;
   opacity: 0.65;
 }
 
 .story-scroll-story .hero-reveal__parallax-alice {
-  width: 310px;
-  height: 252px;
+  width: 300px;
+  height: 244px;
   right: 5%;
-  top: 7%;
+  top: 10%;
   left: auto;
   opacity: 0.88;
 }
@@ -265,8 +282,8 @@ const styles = `
 .story-scroll-story .hero-reveal__parallax-kattle {
   width: 50px;
   height: 40px;
-  right: 28%;
-  top: 6%;
+  right: 26%;
+  top: 8%;
   opacity: 0.7;
 }
 
@@ -274,7 +291,7 @@ const styles = `
   width: 235px;
   height: 242px;
   right: 6%;
-  bottom: 7%;
+  bottom: 8%;
   top: auto;
   opacity: 0.82;
 }
@@ -431,16 +448,15 @@ export const StorySection: React.FC = () => {
       // 1. Initial State: DEEP DIVE doors are fully closed, matching Chapter 01
       tl.set(splitTop, { yPercent: 0 }, 0);
       tl.set(splitBottom, { yPercent: 0 }, 0);
-      tl.set(content, { y: 35, opacity: 0 }, 0);
+      tl.set(content, { y: 20, opacity: 0 }, 0);
 
-      // 2. Vault Doors Part Smoothly:
-      // Top door glides upward cleanly, bottom door glides downward cleanly
+      // 2. Vault Doors Part Smoothly in the first 35% of the scroll track:
       tl.to(
         splitTop,
         {
           yPercent: -100,
           ease: "power2.inOut",
-          duration: 0.44,
+          duration: 0.32,
         },
         0.04
       );
@@ -450,38 +466,38 @@ export const StorySection: React.FC = () => {
         {
           yPercent: 100,
           ease: "power2.inOut",
-          duration: 0.44,
+          duration: 0.32,
         },
         0.04
       );
 
-      // 3. Void Content Rises and Fades In smoothly, settling perfectly centered
+      // 3. Content Fades In and Settles into clean center focus:
       tl.to(
         content,
         {
           y: 0,
           opacity: 1,
           ease: "power1.out",
-          duration: 0.45,
+          duration: 0.28,
         },
-        0.18
+        0.12
       );
 
-      // 4. Parallax Floating Elements in the void
+      // 4. Parallax Floating Elements in the void (gentle float):
       if (clockRef.current) {
-        tl.fromTo(clockRef.current, { y: 20 }, { y: -45, ease: "none", duration: 0.7 }, 0.12);
+        tl.fromTo(clockRef.current, { y: 15 }, { y: -30, ease: "none", duration: 0.8 }, 0.1);
       }
       if (bookRef.current) {
-        tl.fromTo(bookRef.current, { y: 25 }, { y: -65, ease: "none", duration: 0.7 }, 0.12);
+        tl.fromTo(bookRef.current, { y: 20 }, { y: -40, ease: "none", duration: 0.8 }, 0.1);
       }
       if (aliceRef.current) {
-        tl.fromTo(aliceRef.current, { y: 15 }, { y: -35, ease: "none", duration: 0.7 }, 0.12);
+        tl.fromTo(aliceRef.current, { y: 10 }, { y: -25, ease: "none", duration: 0.8 }, 0.1);
       }
       if (kettleRef.current) {
-        tl.fromTo(kettleRef.current, { y: 30 }, { y: -70, ease: "none", duration: 0.7 }, 0.12);
+        tl.fromTo(kettleRef.current, { y: 20 }, { y: -45, ease: "none", duration: 0.8 }, 0.1);
       }
       if (cardRef.current) {
-        tl.fromTo(cardRef.current, { y: 20 }, { y: -50, ease: "none", duration: 0.7 }, 0.12);
+        tl.fromTo(cardRef.current, { y: 15 }, { y: -35, ease: "none", duration: 0.8 }, 0.1);
       }
     }, root);
 
@@ -609,6 +625,11 @@ export const StorySection: React.FC = () => {
                       There were plenty of bugs, unfinished ideas, and moments where starting over felt easier than fixing everything.
                       But every time something finally compiled and worked, the ambition behind the next idea became a little bigger.
                     </p>
+                  </div>
+
+                  <div className="hero-reveal__footer">
+                    <span className="hero-reveal__footer-dot" />
+                    <span>Every breakthrough started as a persistent bug</span>
                   </div>
                 </div>
               </div>
