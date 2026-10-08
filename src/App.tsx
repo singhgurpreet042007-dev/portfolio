@@ -71,7 +71,7 @@ export const App: React.FC = () => {
     };
   }, [isLoading, selectedProjectId]);
 
-  // Open project with hypnotic Shader + Cosmic Spiral transition sequence
+  // Open project with Cosmic Spiral transition sequence
   const handleOpenProject = (projectId: string) => {
     const target = PROJECTS.find((p) => p.id === projectId);
     if (!target) return;
@@ -93,7 +93,7 @@ export const App: React.FC = () => {
     }
   };
 
-  // Called when the 2-stage Shader -> Spiral ENTER animation completes
+  // Called when the Cosmic Spiral ENTER animation completes
   const handleTransitionComplete = React.useCallback(() => {
     if (transitionTargetId) {
       setSelectedProjectId(transitionTargetId);
@@ -225,9 +225,10 @@ export const App: React.FC = () => {
         />
       )}
 
-      {/* ━━━ TWO-STAGE SHADER + SPIRAL COSMIC WARP GATEWAY OVERLAY ━━━ */}
+      {/* ━━━ SPIRAL COSMIC WARP GATEWAY OVERLAY ━━━ */}
       <ShaderTransitionOverlay
         active={isTransitioning}
+        projectId={transitionTargetId || undefined}
         projectTitle={transitionProject?.title}
         projectNumber={transitionProject?.number}
         transitionQuote={transitionProject?.transitionQuote}

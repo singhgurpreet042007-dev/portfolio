@@ -44,8 +44,8 @@ export const PROJECTS: ProjectData[] = [
     role: 'Full-Stack & ML Architect',
     timeline: '2025 – 2026',
     transitionQuote: 'Security is continuous, not circumstantial. Defending every session with relentless precision.',
-    src: '/assets/projects/aegis-showcase.jpg',
-    aspect: 3 / 4,
+    src: '/assets/projects/aegis-showcase.png',
+    aspect: 16 / 9,
     description:
       'Continuous zero-trust behavioral identity verification platform transforming raw human interaction dynamics — keystroke cadence, cursor velocity, and micro-gestures — into an autonomous behavioral shield. Closes the post-login hijacking window where traditional authentication leaves sessions exposed, executing real-time threat evaluation with sub-80ms response times and zero user friction.',
     architectureOverview:
@@ -91,8 +91,8 @@ export const PROJECTS: ProjectData[] = [
     role: 'Full-Stack Software Engineer',
     timeline: '2025 – 2026',
     transitionQuote: 'Hard work compounds into velocity. Real-time systems built for relentless team flow.',
-    src: '/assets/projects/fluxora-showcase.jpg',
-    aspect: 3 / 4,
+    src: '/assets/projects/fluxora-showcase.png',
+    aspect: 16 / 9,
     description:
       'High-performance collaborative enterprise platform engineered with real-time Kanban workspaces, PostgreSQL row-level security, and sub-100ms optimistic state synchronization. Built for cross-functional engineering teams requiring instantaneous live coordination, distributed permissions, and automated conflict reconciliation across complex project pipelines.',
     architectureOverview:
@@ -138,8 +138,8 @@ export const PROJECTS: ProjectData[] = [
     role: 'Systems & Extension Architect',
     timeline: '2025',
     transitionQuote: 'Developer velocity is sacred. Engineered to eliminate friction and elevate focus.',
-    src: '/assets/projects/deployflow-showcase.jpg',
-    aspect: 3 / 4,
+    src: '/assets/projects/deployflow-showcase.png',
+    aspect: 16 / 9,
     description:
       'Developer tooling cloud extension for Visual Studio Code with 35+ verified marketplace downloads, providing seamless one-click cloud deployments, delta file synchronization, and real-time build telemetry. Eliminates context-switching between code editor and remote cloud consoles by streaming infrastructure logs, environment variables, and deployment states directly within the editor.',
     architectureOverview:
@@ -171,7 +171,7 @@ export const PROJECTS: ProjectData[] = [
       { src: '/assets/projects/deployflow-preview.png', alt: 'DeployFlow VS Code Extension Overview' },
       { src: '/assets/projects/deployflow-slide-2.png', alt: 'DeployFlow Live Sync Pipeline' },
       { src: '/assets/projects/deployflow-slide-3.png', alt: 'DeployFlow Cloud Telemetry & Logs' },
-      { src: '/assets/projects/code-editor.jpg', alt: 'DeployFlow Code Environment' },
+      { src: '/assets/projects/deployflow-showcase.png', alt: 'DeployFlow Cloud Architecture & Telemetry' },
     ],
     liveUrl: 'https://marketplace.visualstudio.com/',
     githubUrl: 'https://github.com/singhgurpreet042007-dev/DeployFlow',

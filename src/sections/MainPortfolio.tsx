@@ -4,7 +4,7 @@ import { Work } from './Work';
 import { Capabilities } from './Capabilities';
 import { BuildLog } from './BuildLog';
 import { ContributionSkylineSection } from './ContributionSkylineSection';
-import { StorySection } from './StorySection';
+import { AboutSection } from './AboutSection';
 import { HoverSliderSection } from './HoverSliderSection';
 import { TechScatterSection } from '../components/TechScatterSection';
 import { LayeredTextSection } from './LayeredTextSection';
@@ -36,8 +36,8 @@ export const MainPortfolio: React.FC<MainPortfolioProps> = ({ onSelectProject })
       {/* ─── 04. 3D GITHUB SKYLINE: CODE ACTIVITY (DIRECTORY 04 - PINNED 3D ROTATION) ─── */}
       <ContributionSkylineSection />
 
-      {/* ─── STORY SCROLL REVEAL SECTION: DEEP DIVE VAULT CUT & INNER FLOW ─── */}
-      <StorySection />
+      {/* ─── 04.5 WHO I AM: GURPREET'S FULL STORY & ABOUT SECTION ─── */}
+      <AboutSection />
 
       {/* ─── 05. CAPABILITIES: WHAT I WORK WITH (DIRECTORY 05 - CREAM BACKGROUND) ─── */}
       <div

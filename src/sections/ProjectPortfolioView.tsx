@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { ArrowLeft, ArrowUpRight, X } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ArrowLeft, ArrowUpRight, X, ChevronUp, ChevronDown } from 'lucide-react';
 import { ProjectData } from '../data/projectsData';
-import { SilkBackground } from '../components/SilkBackground';
+import { GradientBackground } from '../components/GradientBackground';
 
 const GithubIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
   <svg className={`fill-current ${className}`} viewBox="0 0 24 24">
@@ -20,154 +20,272 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
   project,
   onClose,
 }) => {
-  const [isRevealed, setIsRevealed] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Ensure view resets to top on mount and triggers smooth entrance reveal
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
-    const r = requestAnimationFrame(() => {
-      setIsRevealed(true);
-    });
-    return () => cancelAnimationFrame(r);
-  }, [project.id]);
-
-  // Keyboard escape listener to close view directly
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
-
+  // Extract the project's images (minimum 4 photos)
   const images = project.images && project.images.length > 0
     ? project.images
     : [{ src: project.src, alt: project.title }];
 
-  // 1. FIRST HALF: CREAM (#F5F2EB) — Architecture Scope & Core Challenge
-  const creamSequenceItems = [
+  const img0 = images[0]?.src || project.src;
+  const img1 = images[1]?.src || img0;
+  const img2 = images[2]?.src || img0;
+  const img3 = images[3]?.src || img0;
+
+  // 4 alternating opposing-slide pages incorporating project photos and descriptions
+  const pages = [
+    // ─── 01. OVERVIEW & SCOPE ───
     {
-      index: '01',
-      tag: 'SYSTEM ARCHITECTURE & PIPELINE',
-      title: 'Technical Scope & Engine Topology',
-      description: project.architectureOverview || project.description,
-      image: images[0] || { src: project.src, alt: project.title },
+      leftBgImage: img0,
+      rightBgImage: null,
+      leftContent: null,
+      rightContent: {
+        tag: `PROJECT ${project.number} // ${project.category}`,
+        heading: project.title,
+        subtitle: project.subtitle,
+        description: project.architectureOverview || project.description,
+      },
     },
+    // ─── 02. CORE CHALLENGE & VULNERABILITY ───
     {
-      index: '02',
-      tag: 'THE CORE CHALLENGE & VULNERABILITY',
-      title: 'Problem Mechanics & Vulnerability Surface',
-      description: project.problemStatement,
-      image: images[1] || images[0],
+      leftBgImage: null,
+      rightBgImage: img1,
+      leftContent: {
+        tag: '02 // THE CORE CHALLENGE',
+        heading: 'PROBLEM MECHANICS',
+        description: project.problemStatement,
+      },
+      rightContent: null,
+    },
+    // ─── 03. ENGINEERING EXECUTION & ARCHITECTURE ───
+    {
+      leftBgImage: img2,
+      rightBgImage: null,
+      leftContent: null,
+      rightContent: {
+        tag: '03 // SYSTEM EXECUTION',
+        heading: 'ENGINEERING STRATEGY',
+        description: project.solutionOverview || project.description,
+      },
+    },
+    // ─── 04. SPECIFICATIONS & TECH ECOSYSTEM (FINALE) ───
+    {
+      leftBgImage: null,
+      rightBgImage: img3,
+      leftContent: {
+        tag: '04 // SYSTEM SPECIFICATIONS',
+        heading: 'ARCHITECTURE & STACK',
+        description: project.keyHighlights?.[0] || 'High-performance architecture engineered for production scale.',
+        isFinale: true,
+      },
+      rightContent: null,
     },
   ];
 
-  // 2. SECOND HALF: SOFT MIXED GRAPHITE (#141518) — Execution, Highlights & Stack
-  const darkSequenceItems = [
-    {
-      index: '03',
-      tag: 'ENGINEERING EXECUTION',
-      title: 'Algorithmic Strategy & System Defense',
-      description: project.solutionOverview,
-      image: images[2] || images[0],
-    },
-    {
-      index: '04',
-      tag: 'SYSTEM SPECIFICATIONS & TECH ECOSYSTEM',
-      title: 'Core Architecture Highlights & Stack Inventory',
-      description: null,
-      highlights: project.keyHighlights,
-      stack: project.techStack,
-      image: images[3] || images[0],
-    },
-  ];
+  const numOfPages = pages.length;
+  const isLockedRef = useRef(false);
+  const lastScrollTimeRef = useRef(0);
+  const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  return (
-    <div
-      className={`relative min-h-screen w-full select-text font-['Plus_Jakarta_Sans',_'Inter',_sans-serif] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-        isRevealed
-          ? 'opacity-100 translate-y-0 scale-100 filter-none'
-          : 'opacity-0 translate-y-3 scale-[0.985] blur-[3px]'
-      }`}
-    >
-      {/* ─── STICKY HEADER (CLEAN EDITORIAL COMMAND BAR ON CREAM) ─── */}
-      <header className="sticky top-0 z-50 w-full bg-[#F5F2EB]/95 backdrop-blur-md border-b border-neutral-300/80 text-neutral-900 transition-colors">
-        <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 h-14 sm:h-15 flex items-center justify-between">
-          {/* Direct Back to Projects Link */}
-          <button
-            onClick={onClose}
-            className="group flex items-center gap-2 text-neutral-600 hover:text-neutral-950 transition-colors cursor-pointer text-xs font-mono uppercase tracking-wider"
-          >
-            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform text-neutral-700" />
-            <span className="font-semibold text-neutral-950 tracking-tight">Projects</span>
-            <span className="text-neutral-400">/</span>
-            <span className="text-neutral-600 font-mono text-[11px]">{project.title}</span>
-          </button>
+  const navigateUp = React.useCallback(() => {
+    setCurrentPage((p) => Math.max(1, p - 1));
+  }, []);
 
-          {/* Direct Close Button */}
-          <button
-            onClick={onClose}
-            aria-label="Close project view"
-            className="w-8 h-8 rounded-full border border-neutral-300 hover:border-neutral-500 flex items-center justify-center text-neutral-600 hover:text-neutral-950 transition-all cursor-pointer"
-          >
-            <X className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      </header>
+  const navigateDown = React.useCallback(() => {
+    setCurrentPage((p) => Math.min(numOfPages, p + 1));
+  }, [numOfPages]);
 
-      {/* ═══════════════════════════════════════════════════════════════
-          FIRST HALF: SIGNATURE LUXURY CREAM (#F5F2EB)
-          Includes Hero + Sequence 01 + Sequence 02
-          ═══════════════════════════════════════════════════════════════ */}
-      <section className="relative w-full bg-[#F5F2EB] text-neutral-900 selection:bg-orange-500/20 selection:text-neutral-950 overflow-hidden">
-        {/* Animated Silk Background in Cream Half */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
-          <SilkBackground theme="cream" />
-        </div>
+  // Ultra-responsive single-page scroll listener: instant trigger on gesture, strict 1-page advance
+  useEffect(() => {
+    const ANIM_DURATION = 380; // Snappy 380ms transition
 
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-8 pb-14 sm:pb-20">
-          {/* ─── COMPACT HERO (NO BOXES, NO CARDS) ─── */}
-          <div className="pt-8 sm:pt-12 pb-10 sm:pb-12 border-b border-neutral-300/80">
-            <div className="flex flex-wrap items-center gap-2.5 mb-2.5 text-[11px] font-mono text-neutral-500">
-              <span className="text-orange-600 font-semibold uppercase tracking-wider">
-                PROJECT {project.number}
-              </span>
-              <span>·</span>
-              <span className="uppercase tracking-wider text-neutral-700">{project.category}</span>
-              <span>·</span>
-              <span>{project.timeline}</span>
-              {project.id === 'deployflow' && (
-                <>
-                  <span>·</span>
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-700 font-mono text-[11px] font-semibold">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
-                    35+ Downloads on VS Code
-                  </span>
-                </>
-              )}
-            </div>
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
 
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight leading-tight mb-2">
-              {project.title}
-            </h1>
+      // 1. Filter out micro-scroll trackpad drift noise (< 4px)
+      if (Math.abs(e.deltaY) < 4) return;
 
-            <p className="text-xs sm:text-[13.5px] text-neutral-600 font-normal leading-relaxed max-w-2xl mb-5">
-              {project.subtitle}
-            </p>
+      const now = Date.now();
 
-            {/* Action Links */}
-            <div className="flex flex-wrap items-center gap-2.5 mb-7">
+      // 2. If already animating or lock active, absorb trailing inertia until gesture ends
+      if (isLockedRef.current) {
+        if (silenceTimerRef.current) {
+          clearTimeout(silenceTimerRef.current);
+        }
+        const elapsed = now - lastScrollTimeRef.current;
+        const remaining = Math.max(0, ANIM_DURATION - elapsed);
+        const delay = Math.max(remaining, 70);
+        silenceTimerRef.current = setTimeout(() => {
+          isLockedRef.current = false;
+        }, delay);
+        return;
+      }
+
+      // 3. FRESH SCROLL GESTURE: Trigger NEXT PAGE INSTANTLY with zero delay!
+      isLockedRef.current = true;
+      lastScrollTimeRef.current = now;
+
+      if (e.deltaY > 0) {
+        navigateDown();
+      } else {
+        navigateUp();
+      }
+
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+      }
+      silenceTimerRef.current = setTimeout(() => {
+        isLockedRef.current = false;
+      }, ANIM_DURATION);
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      const now = Date.now();
+      if (isLockedRef.current || now - lastScrollTimeRef.current < 320) return;
+
+      if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        isLockedRef.current = true;
+        lastScrollTimeRef.current = now;
+        navigateUp();
+        setTimeout(() => {
+          isLockedRef.current = false;
+        }, 340);
+      } else if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+        isLockedRef.current = true;
+        lastScrollTimeRef.current = now;
+        navigateDown();
+        setTimeout(() => {
+          isLockedRef.current = false;
+        }, 340);
+      }
+    };
+
+    // Mobile touch swipe gestures
+    let touchStartY: number | null = null;
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (touchStartY === null) return;
+      const now = Date.now();
+      if (isLockedRef.current || now - lastScrollTimeRef.current < 320) {
+        touchStartY = null;
+        return;
+      }
+
+      const diff = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 30) {
+        isLockedRef.current = true;
+        lastScrollTimeRef.current = now;
+        if (diff > 0) {
+          navigateDown();
+        } else {
+          navigateUp();
+        }
+        setTimeout(() => {
+          isLockedRef.current = false;
+        }, 340);
+      }
+      touchStartY = null;
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [navigateDown, navigateUp, onClose]);
+
+  // Map each project to its distinct faded theme:
+  // Aegis -> Burgundy | Fluxora -> Blue | DeployFlow -> Yellow | Smart Campus -> Lavender
+  const projectTheme: 'burgundy' | 'blue' | 'yellow' | 'lavender' = (() => {
+    const id = (project.id || project.title || '').toLowerCase();
+    if (id.includes('aegis')) return 'burgundy';
+    if (id.includes('deploy')) return 'yellow';
+    if (id.includes('smart') || id.includes('campus')) return 'lavender';
+    return 'blue';
+  })();
+
+  // Render photo half with theme gradient (burgundy, blue, yellow, lavender)
+  const renderImageHalf = (imgUrl: string, altText: string) => (
+    <GradientBackground theme={projectTheme} className="p-6 sm:p-10 md:p-12 lg:p-16 select-none">
+      {/* Perfectly adjusted, non-cropped high-res screenshot */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center">
+        <img
+          src={imgUrl}
+          alt={altText}
+          className="max-w-full max-h-[75vh] md:max-h-[82vh] w-auto h-auto object-contain rounded-xl sm:rounded-2xl border border-white/20 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_30px_rgba(255,255,255,0.08)]"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    </GradientBackground>
+  );
+
+  // Render editorial text half matching the requested clean uppercase font hierarchy
+  const renderContentHalf = (content: any) => (
+    <div className="relative w-full h-full flex flex-col items-center justify-center text-white px-6 sm:px-10 md:px-14 lg:px-20 py-10 bg-black select-text overflow-y-auto">
+      <div className="w-full max-w-xl flex flex-col items-center text-center my-auto">
+        {content.tag && (
+          <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#A1CD8E] mb-3">
+            {content.tag}
+          </span>
+        )}
+
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-extrabold uppercase mb-4 text-center tracking-tight text-white leading-[1.1]">
+          {content.heading}
+        </h2>
+
+        {content.subtitle && (
+          <p className="text-xs sm:text-sm font-mono text-neutral-400 uppercase tracking-wider mb-4">
+            {content.subtitle}
+          </p>
+        )}
+
+        {content.description && (
+          <p className="text-sm sm:text-base md:text-lg text-center text-neutral-300 font-light leading-relaxed mb-6">
+            {content.description}
+          </p>
+        )}
+
+        {/* Finale actions on slide 4 */}
+        {content.isFinale && (
+          <div className="flex flex-col items-center gap-4 w-full mt-2">
+            {project.keyHighlights && project.keyHighlights.length > 0 && (
+              <div className="flex flex-col gap-2 max-w-md w-full mb-3 text-left">
+                {project.keyHighlights.slice(0, 3).map((highlight, idx) => (
+                  <div
+                    key={idx}
+                    className="text-xs font-mono text-neutral-300 bg-white/[0.04] border border-white/10 px-3 py-2 rounded-lg"
+                  >
+                    <span className="text-[#A1CD8E] mr-1.5">▸</span>
+                    {highlight}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="flex flex-wrap items-center justify-center gap-3">
               {project.liveUrl && (
                 <a
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-950 text-white hover:bg-neutral-800 text-xs font-mono font-medium transition-all shadow-xs active:scale-95 cursor-pointer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black font-semibold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors cursor-pointer shadow-lg"
                 >
-                  <span>{project.id === 'deployflow' ? 'VS Code Marketplace' : 'Live Site'}</span>
-                  <ArrowUpRight className="w-3 h-3" />
+                  <span>Live Demo</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               )}
 
@@ -176,166 +294,139 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 hover:border-neutral-500 text-neutral-800 text-xs font-mono font-medium transition-all active:scale-95 cursor-pointer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 text-white font-semibold text-xs uppercase tracking-wider hover:bg-white/20 border border-white/20 transition-colors cursor-pointer"
                 >
-                  <GithubIcon className="w-3 h-3" />
+                  <GithubIcon className="w-3.5 h-3.5" />
                   <span>Source Code</span>
                 </a>
               )}
+
+              <button
+                onClick={onClose}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-transparent text-neutral-400 hover:text-white font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Back</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-hidden h-screen w-full bg-black select-none">
+      {/* ─── STICKY COMMAND BAR HEADER ─── */}
+      <header className="absolute top-0 left-0 right-0 z-40 w-full px-6 sm:px-8 py-5 flex items-center justify-between pointer-events-auto bg-gradient-to-b from-black/80 to-transparent">
+        <button
+          onClick={onClose}
+          className="group flex items-center gap-2 text-neutral-400 hover:text-white transition-colors cursor-pointer text-xs font-mono uppercase tracking-wider"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform text-neutral-400" />
+          <span className="font-semibold text-white tracking-tight">Portfolio</span>
+          <span className="text-neutral-600">/</span>
+          <span className="text-neutral-300 font-mono text-[11px]">{project.title}</span>
+        </button>
+
+        <div className="flex items-center gap-4">
+          <div className="font-mono text-xs text-neutral-400 tracking-widest uppercase">
+            <span className="text-white font-bold">0{currentPage}</span>
+            <span className="text-neutral-600"> / </span>
+            <span>0{numOfPages}</span>
+          </div>
+
+          <button
+            onClick={onClose}
+            aria-label="Close project view"
+            className="w-8 h-8 rounded-full border border-white/20 hover:border-white/50 flex items-center justify-center text-neutral-400 hover:text-white transition-all cursor-pointer"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </header>
+
+      {/* ─── SPLIT-SCREEN OPPOSING VERTICAL SLIDE PANELS ─── */}
+      {pages.map((page, i) => {
+        const idx = i + 1;
+        const isActive = currentPage === idx;
+        const upOff = 'translateY(-100%)';
+        const downOff = 'translateY(100%)';
+        const leftTrans = isActive ? 'translateY(0)' : downOff;
+        const rightTrans = isActive ? 'translateY(0)' : upOff;
+
+        return (
+          <div
+            key={idx}
+            className={`absolute inset-0 ${
+              isActive ? 'pointer-events-auto' : 'pointer-events-none'
+            }`}
+            style={{ zIndex: isActive ? 20 : (Math.abs(currentPage - idx) === 1 ? 10 : 5) }}
+          >
+            {/* Left Half (Desktop) / Top Half (Mobile) */}
+            <div
+              className="absolute top-0 left-0 w-full h-1/2 md:w-1/2 md:h-full transition-transform duration-[380ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+              style={{ transform: leftTrans }}
+            >
+              {page.leftBgImage && renderImageHalf(page.leftBgImage, `${project.title} image ${idx}`)}
+              {page.leftContent && renderContentHalf(page.leftContent)}
             </div>
 
-            {/* Horizontal Metrics Bar (Unboxed Flat List) */}
-            {project.metrics && project.metrics.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-5 border-t border-neutral-300/80">
-                {project.metrics.map((metric) => (
-                  <div key={metric.label}>
-                    <span className="block text-[10px] font-mono uppercase tracking-wider text-neutral-500 mb-0.5">
-                      {metric.label}
-                    </span>
-                    <span className="block text-sm sm:text-base font-bold text-neutral-950 tracking-tight">
-                      {metric.value}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* ─── SEQUENCE 01 & 02 (CREAM HALF, HIGH-FIDELITY WINDOW FRAME BESIDE TEXT) ─── */}
-          <div className="flex flex-col divide-y divide-neutral-300/80">
-            {creamSequenceItems.map((item, idx) => (
-              <div key={item.index} className="py-10 sm:py-14">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
-                  {/* Clean High-Definition Image Showcase (No duplicate title bars) */}
-                  <div className={`md:col-span-6 flex justify-center ${idx % 2 === 1 ? 'md:order-2' : 'md:order-1'}`}>
-                    <div className="w-full max-w-[540px] rounded-2xl overflow-hidden border border-neutral-300/80 bg-neutral-900 shadow-[0_8px_30px_-6px_rgba(0,0,0,0.12)] transition-all duration-300 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.18)]">
-                      <img
-                        src={item.image.src}
-                        alt={item.image.alt || item.title}
-                        loading="lazy"
-                        className="w-full h-auto object-cover transition-transform duration-500 hover:scale-[1.015]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Direct Corresponding Text */}
-                  <div className={`md:col-span-6 flex flex-col justify-center ${idx % 2 === 1 ? 'md:order-1' : 'md:order-2'}`}>
-                    <div className="flex items-center gap-1.5 mb-2 text-[10px] font-mono text-orange-600 uppercase tracking-widest font-semibold">
-                      <span>{item.index}</span>
-                      <span>/</span>
-                      <span>{item.tag}</span>
-                    </div>
-
-                    <h3 className="text-lg sm:text-xl font-bold text-neutral-950 tracking-tight mb-2.5">
-                      {item.title}
-                    </h3>
-
-                    {item.description && (
-                      <p className="text-xs sm:text-[13.5px] text-neutral-700 font-normal leading-relaxed">
-                        {item.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════════
-          SECOND HALF: SOFT MIXED GRAPHITE/CHARCOAL (#141518, NOT Z-BLACK)
-          Includes Sequence 03 + Sequence 04 + Direct Return Bar
-          ═══════════════════════════════════════════════════════════════ */}
-      <section className="relative w-full bg-[#141518] text-neutral-200 border-t border-neutral-700/40 selection:bg-orange-500/20 selection:text-white overflow-hidden">
-        {/* Animated Silk Background in Dark Half */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
-          <SilkBackground theme="dark" />
-        </div>
-
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-8 pt-10 sm:pt-14 pb-20 sm:pb-28">
-          {/* ─── SEQUENCE 03 & 04 (DARK HALF, HIGH-FIDELITY WINDOW FRAME BESIDE TEXT) ─── */}
-          <div className="flex flex-col divide-y divide-neutral-800/80">
-            {darkSequenceItems.map((item, idx) => (
-              <div key={item.index} className="py-10 sm:py-14">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
-                  {/* Clean High-Definition Image Showcase (No duplicate title bars) */}
-                  <div className={`md:col-span-6 flex justify-center ${idx % 2 === 1 ? 'md:order-2' : 'md:order-1'}`}>
-                    <div className="w-full max-w-[540px] rounded-2xl overflow-hidden border border-neutral-700/60 bg-[#16181d] shadow-[0_8px_32px_-6px_rgba(0,0,0,0.45)] transition-all duration-300 hover:shadow-[0_16px_44px_-8px_rgba(0,0,0,0.6)]">
-                      <img
-                        src={item.image.src}
-                        alt={item.image.alt || item.title}
-                        loading="lazy"
-                        className="w-full h-auto object-cover transition-transform duration-500 hover:scale-[1.015]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Direct Corresponding Text */}
-                  <div className={`md:col-span-6 flex flex-col justify-center ${idx % 2 === 1 ? 'md:order-1' : 'md:order-2'}`}>
-                    <div className="flex items-center gap-1.5 mb-2 text-[10px] font-mono text-orange-400 uppercase tracking-widest font-semibold">
-                      <span>{item.index}</span>
-                      <span>/</span>
-                      <span>{item.tag}</span>
-                    </div>
-
-                    <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight mb-2.5">
-                      {item.title}
-                    </h3>
-
-                    {item.description && (
-                      <p className="text-xs sm:text-[13.5px] text-neutral-300 font-normal leading-relaxed mb-3">
-                        {item.description}
-                      </p>
-                    )}
-
-                    {/* Highlights if present */}
-                    {item.highlights && item.highlights.length > 0 && (
-                      <ul className="space-y-1.5 mb-3">
-                        {item.highlights.map((h, hIdx) => (
-                          <li key={hIdx} className="flex items-start gap-2 text-xs sm:text-[12.5px] text-neutral-300 font-normal leading-relaxed">
-                            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0 mt-1.5" />
-                            <span>{h}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    {/* Technology Stack Tags if present */}
-                    {item.stack && item.stack.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        {item.stack.flatMap((g) => g.items).map((tech) => (
-                          <span
-                            key={tech}
-                            className="text-[9.5px] font-mono px-2 py-0.5 rounded border border-neutral-700/70 text-neutral-300 bg-white/[0.04]"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* ─── DIRECT RETURN ACTION BAR (CLEAN, MINIMAL, NO CARDS) ─── */}
-          <div className="pt-10 sm:pt-14 mt-4 border-t border-neutral-800/80 flex flex-wrap items-center justify-between gap-4">
-            <button
-              onClick={onClose}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-neutral-950 hover:bg-neutral-200 text-xs font-mono font-medium transition-all shadow-xs active:scale-95 cursor-pointer"
+            {/* Right Half (Desktop) / Bottom Half (Mobile) */}
+            <div
+              className="absolute top-1/2 left-0 w-full h-1/2 md:top-0 md:left-1/2 md:w-1/2 md:h-full transition-transform duration-[380ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+              style={{ transform: rightTrans }}
             >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to Projects</span>
-            </button>
-
-            <span className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider">
-              {project.title} · Technical Breakdown
-            </span>
+              {page.rightBgImage && renderImageHalf(page.rightBgImage, `${project.title} image ${idx}`)}
+              {page.rightContent && renderContentHalf(page.rightContent)}
+            </div>
           </div>
-        </div>
-      </section>
+        );
+      })}
+
+      {/* ─── BOTTOM DOT INDICATORS ─── */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 pointer-events-auto">
+        {pages.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentPage(i + 1)}
+            aria-label={`Go to slide ${i + 1}`}
+            className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+              currentPage === i + 1
+                ? 'w-6 bg-white'
+                : 'w-2 bg-white/30 hover:bg-white/60'
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* ─── DESKTOP RIGHT CHEVRONS ─── */}
+      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2 pointer-events-auto">
+        <button
+          onClick={navigateUp}
+          disabled={currentPage === 1}
+          aria-label="Previous slide"
+          className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
+            currentPage === 1
+              ? 'border-white/10 text-white/20 cursor-not-allowed'
+              : 'border-white/20 text-white hover:bg-white/10'
+          }`}
+        >
+          <ChevronUp className="w-4 h-4" />
+        </button>
+        <button
+          onClick={navigateDown}
+          disabled={currentPage === numOfPages}
+          aria-label="Next slide"
+          className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
+            currentPage === numOfPages
+              ? 'border-white/10 text-white/20 cursor-not-allowed'
+              : 'border-white/20 text-white hover:bg-white/10'
+          }`}
+        >
+          <ChevronDown className="w-4 h-4" />
+        </button>
+      </div>
     </div>
   );
 };

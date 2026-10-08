@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from 'react';
-import { ShaderAnimation } from './ShaderAnimation';
 import { SpiralAnimation } from './SpiralAnimation';
 import { BlurTextAnimation } from './BlurTextAnimation';
+import { FluxoraRevealText } from './FluxoraRevealText';
+import { LampTransition } from './LampTransition';
 
 interface ShaderTransitionOverlayProps {
   active: boolean;
+  projectId?: string;
   projectTitle?: string;
   projectNumber?: string;
   transitionQuote?: string;
@@ -15,14 +17,27 @@ interface ShaderTransitionOverlayProps {
 
 export const ShaderTransitionOverlay: React.FC<ShaderTransitionOverlayProps> = ({
   active,
+  projectId,
+  projectTitle,
   transitionQuote,
   onTransitionComplete,
 }) => {
   const [shouldRender, setShouldRender] = useState(active);
-  // Transition phases: 'shader' -> 'blending' -> 'spiral' -> 'blurText' -> 'revealing' -> 'done'
-  const [phase, setPhase] = useState<'shader' | 'blending' | 'spiral' | 'blurText' | 'revealing' | 'done'>('shader');
+  // Transition phases: 'spiral' -> 'customReveal' | 'lampReveal' | 'blurText' -> 'revealing' -> 'done'
+  const [phase, setPhase] = useState<'spiral' | 'customReveal' | 'lampReveal' | 'blurText' | 'revealing' | 'done'>('spiral');
   const onTransitionCompleteRef = useRef(onTransitionComplete);
   const transitionStartedRef = useRef(false);
+
+  const normalizedId = (projectId || projectTitle || '').toLowerCase();
+  const isFluxora = normalizedId.includes('fluxora');
+  const isDeployFlow = normalizedId.includes('deploy');
+  const isAegis = normalizedId.includes('aegis');
+  const isSmartCampus = normalizedId.includes('smart') || normalizedId.includes('campus');
+
+  // Group 1: Letter reveal animation (Fluxora & DeployFlow)
+  const isLetterReveal = isFluxora || isDeployFlow;
+  // Group 2: Aceternity Lamp illumination animation (Aegis & Smart Campus)
+  const isLampReveal = isAegis || isSmartCampus;
 
   useEffect(() => {
     onTransitionCompleteRef.current = onTransitionComplete;
@@ -33,45 +48,39 @@ export const ShaderTransitionOverlay: React.FC<ShaderTransitionOverlayProps> = (
       if (transitionStartedRef.current) return;
       transitionStartedRef.current = true;
       setShouldRender(true);
-      setPhase('shader');
+      setPhase('spiral');
 
-      // 1. Stage 1: Chromatic Shader for 850ms
+      // 1. Stage 1: Cosmic 3D Spiral "ENTER" Animation runs directly for 2000ms
       const t1 = setTimeout(() => {
-        setPhase('blending'); // Crossfade interval
-      }, 850);
+        if (isLetterReveal) {
+          setPhase('customReveal');
+        } else if (isLampReveal) {
+          setPhase('lampReveal');
+        } else {
+          setPhase('blurText');
+        }
+      }, 2000);
 
-      // 2. Stage 2: Cosmic 3D Spiral "ENTER" Animation after 1250ms
+      // 2. Fallback maximum timer to guarantee project reveal even if animation complete event delays
       const t2 = setTimeout(() => {
-        setPhase('spiral');
-      }, 1250);
-
-      // 3. Stage 3: Smoothly transition from ENTER warp into Blur Text Animation after 3100ms
-      const t3 = setTimeout(() => {
-        setPhase('blurText');
-      }, 3100);
-
-      // 4. Fallback maximum timer to guarantee project reveal even if animation complete event delays
-      const t4 = setTimeout(() => {
         if (phase !== 'done' && phase !== 'revealing') {
           handleBlurTextComplete();
         }
-      }, 7200);
+      }, 7500);
 
       return () => {
         clearTimeout(t1);
         clearTimeout(t2);
-        clearTimeout(t3);
-        clearTimeout(t4);
       };
     } else {
       transitionStartedRef.current = false;
-      // Fade out cleanly - NEVER re-mount or reset to shader on exit!
+      // Fade out cleanly - NEVER re-mount on exit!
       const timer = setTimeout(() => {
         setShouldRender(false);
       }, 400);
       return () => clearTimeout(timer);
     }
-  }, [active]);
+  }, [active, isLetterReveal, isLampReveal]);
 
   const handleBlurTextComplete = () => {
     // 1. Signal App to mount project screen underneath
@@ -100,24 +109,9 @@ export const ShaderTransitionOverlay: React.FC<ShaderTransitionOverlayProps> = (
           : 'opacity-0 pointer-events-none'
       }`}
     >
-      {/* ─── STAGE 1: THREE.JS CHROMATIC SHADER (Runs first only) ─── */}
-      {active && (phase === 'shader' || phase === 'blending') && (
-        <div
-          className={`absolute inset-0 w-full h-full transition-opacity duration-500 ease-out ${
-            phase === 'blending' ? 'opacity-0' : 'opacity-100'
-          }`}
-        >
-          <ShaderAnimation className="w-full h-full" />
-        </div>
-      )}
-
-      {/* ─── STAGE 2: COSMIC 3D SPIRAL "ENTER" (Runs second) ─── */}
-      {(phase === 'blending' || phase === 'spiral') && (
-        <div
-          className={`absolute inset-0 w-full h-full transition-opacity duration-500 ease-in ${
-            phase === 'blending' ? 'opacity-90' : 'opacity-100'
-          }`}
-        >
+      {/* ─── STAGE 1: COSMIC 3D SPIRAL "ENTER" (Runs directly on project entry) ─── */}
+      {phase === 'spiral' && (
+        <div className="absolute inset-0 w-full h-full transition-opacity duration-500 ease-in opacity-100">
           <SpiralAnimation duration={2.0} className="w-full h-full" />
 
           {/* Minimal ENTER HUD displayed during spiral */}
@@ -132,8 +126,47 @@ export const ShaderTransitionOverlay: React.FC<ShaderTransitionOverlayProps> = (
         </div>
       )}
 
-      {/* ─── STAGE 3: BLUR TEXT ANIMATION + SMOOTH CINEMATIC DISSOLVE ─── */}
-      {(phase === 'blurText' || phase === 'revealing') && (
+      {/* ─── STAGE 2 (FLUXORA & DEPLOYFLOW): SPRING LETTER REVEAL TEXT ANIMATION ─── */}
+      {isLetterReveal && (phase === 'customReveal' || phase === 'revealing') && (
+        <div
+          className={`absolute inset-0 w-full h-full flex items-center justify-center bg-black px-6 transition-all duration-700 ease-out ${
+            phase === 'revealing'
+              ? 'opacity-0 scale-105 filter blur-lg pointer-events-none'
+              : 'opacity-100 scale-100 filter-none pointer-events-auto'
+          }`}
+        >
+          <FluxoraRevealText
+            text={isDeployFlow ? "DEPLOYFLOW" : "FLUXORA"}
+            onComplete={handleBlurTextComplete}
+          />
+        </div>
+      )}
+
+      {/* ─── STAGE 2 (AEGIS-AI & SMART CAMPUS): ACETERNITY LAMP ILLUMINATION ANIMATION ─── */}
+      {isLampReveal && (phase === 'lampReveal' || phase === 'revealing') && (
+        <div
+          className={`absolute inset-0 w-full h-full flex items-center justify-center bg-black transition-all duration-700 ease-out ${
+            phase === 'revealing'
+              ? 'opacity-0 scale-105 filter blur-lg pointer-events-none'
+              : 'opacity-100 scale-100 filter-none pointer-events-auto'
+          }`}
+        >
+          <LampTransition
+            theme={isAegis ? "burgundy" : "lavender"}
+            tag={isAegis ? "01 // BEHAVIORAL SHIELD" : "04 // CAMPUS OS"}
+            title={isAegis ? "AEGIS-AI" : "SMART CAMPUS"}
+            subtitle={
+              isAegis
+                ? "ZERO-TRUST IDENTITY VERIFICATION"
+                : "UNIFIED ACADEMIC OPERATING SYSTEM"
+            }
+            onComplete={handleBlurTextComplete}
+          />
+        </div>
+      )}
+
+      {/* ─── STAGE 2 (GENERIC FALLBACK): BLUR TEXT ANIMATION ─── */}
+      {!isLetterReveal && !isLampReveal && (phase === 'blurText' || phase === 'revealing') && (
         <div
           className={`absolute inset-0 w-full h-full flex items-center justify-center bg-black transition-all duration-700 ease-out ${
             phase === 'revealing'

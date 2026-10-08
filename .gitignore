@@ -24,3 +24,9 @@ lerna-debug.log*
 *.sw?
 *.mp4
 *.webm
+
+# Temporary & test assets
+public/assets/projects/temp_*
+public/assets/projects/test_*
+public/assets/projects/campus_raw_*
+
